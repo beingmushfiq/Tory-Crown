@@ -1,0 +1,66 @@
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+export const useCart = create(
+  persist(
+    (set, get) => ({
+      cartItems: [],
+      
+      addToCart: (product, variant = null, size = null, qty = 1) => {
+        const key = `${product.id}-${variant?.id || 'default'}-${size || 'default'}`;
+        const items = [...get().cartItems];
+        const existing = items.find(item => item.key === key);
+        
+        if (existing) {
+          existing.quantity += qty;
+          set({ cartItems: items });
+        } else {
+          set({
+            cartItems: [
+              ...items,
+              {
+                key,
+                productId: product.id,
+                product: product, // Store full product for ease of use
+                variant: variant,
+                size,
+                quantity: qty,
+              }
+            ]
+          });
+        }
+      },
+
+      removeFromCart: (key) => {
+        set({ cartItems: get().cartItems.filter(item => item.key !== key) });
+      },
+
+      updateQuantity: (key, qty) => {
+        const items = [...get().cartItems];
+        const item = items.find(i => i.key === key);
+        if (item) {
+          if (qty <= 0) {
+            set({ cartItems: items.filter(i => i.key !== key) });
+          } else {
+            item.quantity = qty;
+            set({ cartItems: items });
+          }
+        }
+      },
+
+      clearCart: () => set({ cartItems: [] }),
+    }),
+    {
+      name: 'torycrown_cart_v2',
+    }
+  )
+);
+
+export const selectCartTotal = (state) => 
+  state.cartItems.reduce((sum, item) => {
+    const price = item.variant?.price || item.product.price || 0;
+    return sum + price * item.quantity;
+  }, 0);
+
+export const selectCartCount = (state) => 
+  state.cartItems.reduce((sum, item) => sum + item.quantity, 0);

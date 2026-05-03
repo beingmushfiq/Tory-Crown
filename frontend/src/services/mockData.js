@@ -1,0 +1,266 @@
+/* ============================================
+   MOCK DATA — Simulates Laravel API responses
+   ============================================ */
+
+export const heroData = {
+  headline: 'Crafted for Eternity',
+  subheadline: 'Timeless jewelry, handcrafted with passion and precision',
+  cta: 'Explore Collection',
+  image: 'https://images.unsplash.com/photo-1515562141589-67f0d569b610?q=80&w=1920',
+};
+
+export const collections = [
+  {
+    id: 1,
+    name: 'Eternal Rings',
+    slug: 'eternal-rings',
+    description: 'Symbols of everlasting devotion',
+    image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=800',
+    count: 24,
+  },
+  {
+    id: 2,
+    name: 'Heritage Necklaces',
+    slug: 'heritage-necklaces',
+    description: 'Elegance that transcends generations',
+    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800',
+    count: 18,
+  },
+  {
+    id: 3,
+    name: 'Royal Earrings',
+    slug: 'royal-earrings',
+    description: 'Grace in every movement',
+    image: 'https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=800',
+    count: 32,
+  },
+  {
+    id: 4,
+    name: 'Diamond Bracelets',
+    slug: 'diamond-bracelets',
+    description: 'Brilliance on your wrist',
+    image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800',
+    count: 15,
+  },
+];
+
+export const products = [
+  {
+    id: 1,
+    name: 'Celestial Solitaire Ring',
+    slug: 'celestial-solitaire-ring',
+    price: 4250,
+    originalPrice: null,
+    category: 'Rings',
+    collection: 'Eternal Rings',
+    images: [
+      'https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=800',
+      'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?q=80&w=800',
+    ],
+    description: 'A masterpiece of precision and passion. The Celestial Solitaire features a brilliant-cut diamond set in 18K white gold, designed to capture light from every angle.',
+    specs: { material: '18K White Gold', stone: 'Diamond (1.2ct)', clarity: 'VVS1', cut: 'Excellent', weight: '4.2g' },
+    rating: 4.9,
+    reviews: 47,
+    inStock: true,
+    badge: 'Best Seller',
+    variants: [
+      { id: 'v1', name: 'White Gold', color: '#E8E8E8', priceModifier: 0 },
+      { id: 'v2', name: 'Rose Gold', color: '#E8B4B8', priceModifier: 200 },
+      { id: 'v3', name: 'Yellow Gold', color: '#D4AF37', priceModifier: 150 },
+    ],
+    sizes: ['5', '6', '7', '8', '9'],
+  },
+  {
+    id: 2,
+    name: 'Monarch Pearl Necklace',
+    slug: 'monarch-pearl-necklace',
+    price: 3800,
+    originalPrice: 4200,
+    category: 'Necklaces',
+    collection: 'Heritage Necklaces',
+    images: [
+      'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800',
+      'https://images.unsplash.com/photo-1515562141589-67f0d569b610?q=80&w=800',
+    ],
+    description: 'Luminous South Sea pearls cascading along a chain of 18K gold. Each pearl is hand-selected for its exceptional luster and perfect shape.',
+    specs: { material: '18K Yellow Gold', stone: 'South Sea Pearl', length: '18 inches', clasp: 'Lobster claw', weight: '12.8g' },
+    rating: 4.8,
+    reviews: 32,
+    inStock: true,
+    badge: 'Sale',
+    variants: [
+      { id: 'v1', name: 'Yellow Gold', color: '#D4AF37', priceModifier: 0 },
+      { id: 'v2', name: 'White Gold', color: '#E8E8E8', priceModifier: 100 },
+    ],
+    sizes: ['16"', '18"', '20"'],
+  },
+  {
+    id: 3,
+    name: 'Aurora Drop Earrings',
+    slug: 'aurora-drop-earrings',
+    price: 2950,
+    originalPrice: null,
+    category: 'Earrings',
+    collection: 'Royal Earrings',
+    images: [
+      'https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=800',
+      'https://images.unsplash.com/photo-1617038220319-276d3cfab638?q=80&w=800',
+    ],
+    description: 'Inspired by the Northern Lights, these exquisite drop earrings feature pavé-set diamonds that dance with every movement.',
+    specs: { material: '18K White Gold', stone: 'Diamond (0.8ct total)', style: 'Drop', back: 'Push back', weight: '3.6g' },
+    rating: 5.0,
+    reviews: 19,
+    inStock: true,
+    badge: 'New',
+    variants: [
+      { id: 'v1', name: 'White Gold', color: '#E8E8E8', priceModifier: 0 },
+      { id: 'v2', name: 'Platinum', color: '#C0C0C0', priceModifier: 500 },
+    ],
+    sizes: [],
+  },
+  {
+    id: 4,
+    name: 'Sovereign Diamond Bracelet',
+    slug: 'sovereign-diamond-bracelet',
+    price: 6700,
+    originalPrice: null,
+    category: 'Bracelets',
+    collection: 'Diamond Bracelets',
+    images: [
+      'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=800',
+      'https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=800',
+    ],
+    description: 'An extraordinary tennis bracelet featuring 42 round brilliant diamonds set in a seamless line of 18K white gold. Pure radiance.',
+    specs: { material: '18K White Gold', stone: 'Diamond (5.2ct total)', setting: 'Four-prong', clasp: 'Hidden safety', weight: '15.4g' },
+    rating: 4.9,
+    reviews: 28,
+    inStock: true,
+    badge: null,
+    variants: [
+      { id: 'v1', name: 'White Gold', color: '#E8E8E8', priceModifier: 0 },
+      { id: 'v2', name: 'Platinum', color: '#C0C0C0', priceModifier: 800 },
+    ],
+    sizes: ['6.5"', '7"', '7.5"', '8"'],
+  },
+  {
+    id: 5,
+    name: 'Eternity Band',
+    slug: 'eternity-band',
+    price: 3200,
+    originalPrice: 3600,
+    category: 'Rings',
+    collection: 'Eternal Rings',
+    images: [
+      'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?q=80&w=800',
+      'https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=800',
+    ],
+    description: 'A continuous circle of perfectly matched diamonds symbolizing never-ending love. Set in polished platinum for enduring beauty.',
+    specs: { material: 'Platinum 950', stone: 'Diamond (2.0ct total)', setting: 'Channel', width: '3mm', weight: '5.8g' },
+    rating: 4.8,
+    reviews: 53,
+    inStock: true,
+    badge: 'Sale',
+    variants: [
+      { id: 'v1', name: 'Platinum', color: '#C0C0C0', priceModifier: 0 },
+      { id: 'v2', name: 'White Gold', color: '#E8E8E8', priceModifier: -300 },
+    ],
+    sizes: ['5', '6', '7', '8', '9'],
+  },
+  {
+    id: 6,
+    name: 'Empress Emerald Pendant',
+    slug: 'empress-emerald-pendant',
+    price: 5100,
+    originalPrice: null,
+    category: 'Necklaces',
+    collection: 'Heritage Necklaces',
+    images: [
+      'https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?q=80&w=800',
+      'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=800',
+    ],
+    description: 'A magnificent Colombian emerald surrounded by a halo of brilliant diamonds, suspended from a delicate 18K gold chain.',
+    specs: { material: '18K Yellow Gold', stone: 'Emerald (2.5ct) + Diamond (0.4ct)', origin: 'Colombian', chain: '20 inches', weight: '8.2g' },
+    rating: 4.8,
+    reviews: 14,
+    inStock: true,
+    badge: 'Exclusive',
+    variants: [
+      { id: 'v1', name: 'Yellow Gold', color: '#D4AF37', priceModifier: 0 },
+    ],
+    sizes: ['18"', '20"', '22"'],
+  },
+  {
+    id: 7,
+    name: 'Luxe Hoop Earrings',
+    slug: 'luxe-hoop-earrings',
+    price: 1850,
+    originalPrice: null,
+    category: 'Earrings',
+    collection: 'Royal Earrings',
+    images: [
+      'https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=800',
+      'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=800',
+    ],
+    description: 'Bold yet refined hoop earrings encrusted with micro-pavé diamonds. A statement of understated luxury for the modern woman.',
+    specs: { material: '18K Rose Gold', stone: 'Diamond (0.6ct total)', diameter: '30mm', back: 'Hinged snap', weight: '6.4g' },
+    rating: 4.8,
+    reviews: 41,
+    inStock: true,
+    badge: null,
+    variants: [
+      { id: 'v1', name: 'Rose Gold', color: '#E8B4B8', priceModifier: 0 },
+      { id: 'v2', name: 'Yellow Gold', color: '#D4AF37', priceModifier: 0 },
+    ],
+    sizes: [],
+  },
+  {
+    id: 8,
+    name: 'Crown Signet Ring',
+    slug: 'crown-signet-ring',
+    price: 2400,
+    originalPrice: null,
+    category: 'Rings',
+    collection: 'Eternal Rings',
+    images: [
+      'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?q=80&w=800',
+      'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?q=80&w=800',
+    ],
+    description: 'A modern interpretation of the classic signet ring, featuring the Tory Crown monogram hand-engraved in solid 18K gold.',
+    specs: { material: '18K Yellow Gold', engraving: 'Hand-engraved', style: 'Signet', width: '12mm', weight: '9.8g' },
+    rating: 4.8,
+    reviews: 22,
+    inStock: false,
+    badge: 'Sold Out',
+    variants: [
+      { id: 'v1', name: 'Yellow Gold', color: '#D4AF37', priceModifier: 0 },
+    ],
+    sizes: ['8', '9', '10', '11', '12'],
+  },
+];
+
+export const storyContent = {
+  title: 'The Art of Forever',
+  subtitle: 'Our Heritage',
+  body: 'Every piece in the Tory Crown collection is born from a century-old tradition of master craftsmanship. Our artisans pour their soul into every setting, every polish, every stone — creating jewelry that doesn\'t just adorn, but tells a story.',
+  signature: '— House of Tory Crown, est. 1926',
+  image: 'https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?q=80&w=1200',
+};
+
+export const trustBadges = [
+  { icon: 'shield', title: 'Authenticity Guaranteed', description: 'Every piece comes with a certificate of authenticity' },
+  { icon: 'gem', title: 'Certified Diamonds', description: 'GIA certified stones with full grading reports' },
+  { icon: 'truck', title: 'Insured Shipping', description: 'Complimentary insured delivery worldwide' },
+  { icon: 'refresh', title: '30-Day Returns', description: 'Hassle-free returns within 30 days' },
+];
+
+export const reviews = [
+  { id: 1, author: 'Sophia M.', rating: 5, date: '2024-12-15', text: 'Absolutely breathtaking. The craftsmanship is unlike anything I\'ve ever seen. Worth every penny.', product: 'Celestial Solitaire Ring', verified: true },
+  { id: 2, author: 'James R.', rating: 5, date: '2024-11-28', text: 'Purchased for my wife\'s anniversary. She was speechless. The quality speaks for itself.', product: 'Monarch Pearl Necklace', verified: true },
+  { id: 3, author: 'Elena K.', rating: 4, date: '2024-11-10', text: 'Beautiful earrings with incredible sparkle. The packaging was also very luxurious.', product: 'Aurora Drop Earrings', verified: true },
+  { id: 4, author: 'Michael T.', rating: 5, date: '2024-10-22', text: 'Exceptional quality and the customer service was outstanding. They helped me choose the perfect size.', product: 'Eternity Band', verified: true },
+];
+
+export const banners = [
+  { id: 1, title: 'New Arrivals', subtitle: 'The Spring Collection is here', image: 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?q=80&w=1920', link: '/collections' },
+  { id: 2, title: 'Bridal Edit', subtitle: 'Begin your forever', image: 'https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1920', link: '/collections' },
+];

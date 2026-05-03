@@ -1,0 +1,11 @@
+.tory-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.tory-layout__main {
+  flex-grow: 1;
+}
