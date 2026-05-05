@@ -18,15 +18,27 @@ class CouponsTable
                 TextColumn::make('code')
                     ->searchable(),
                 TextColumn::make('type')
-                    ->searchable(),
+                    ->badge(),
                 TextColumn::make('value')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('min_order_amount')
                     ->numeric()
                     ->sortable(),
+                TextColumn::make('max_discount')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('usage_limit')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('per_user_limit')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('used_count')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('expires_at')
-                    ->date()
+                    ->dateTime()
                     ->sortable(),
                 IconColumn::make('is_active')
                     ->boolean(),

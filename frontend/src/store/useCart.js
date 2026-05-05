@@ -5,6 +5,10 @@ export const useCart = create(
   persist(
     (set, get) => ({
       cartItems: [],
+      isCartOpen: false,
+
+      openCart: () => set({ isCartOpen: true }),
+      closeCart: () => set({ isCartOpen: false }),
       
       addToCart: (product, variant = null, size = null, qty = 1) => {
         const key = `${product.id}-${variant?.id || 'default'}-${size || 'default'}`;
@@ -51,7 +55,7 @@ export const useCart = create(
       clearCart: () => set({ cartItems: [] }),
     }),
     {
-      name: 'torycrown_cart_v2',
+      name: 'Tori Crown_cart_v2',
     }
   )
 );

@@ -3,48 +3,73 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Product extends Model implements HasMedia
+class Product extends Model
 {
-    use InteractsWithMedia;
-
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-            ->width(200)
-            ->height(200)
-            ->sharpen(10);
-
-        $this->addMediaConversion('responsive')
-            ->withResponsiveImages();
-    }
+    use SoftDeletes;
 
     protected $fillable = [
-        'name', 
-        'slug', 
-        'description', 
-        'category', 
-        'collection', 
-        'images', 
-        'is_active', 
-        'is_featured', 
-        'vat_percentage',
-        'meta_title',
-        'meta_description',
-        'meta_keywords',
+        'sku', 'name', 'slug', 'description', 'full_description',
+        'category_id', 'collection_id', 'is_active', 'is_featured',
+        'gold_rate_override', 'sort_order', 'tags',
+        'meta_title', 'meta_description', 'og_image', 'tenant_id',
     ];
 
     protected $casts = [
-        'images' => 'array',
-        'is_active' => 'boolean',
+        'is_active'   => 'boolean',
         'is_featured' => 'boolean',
+        'tags'        => 'array',
     ];
 
-    public function variants()
+    // --- Relationships ---
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function collection(): BelongsTo
+    {
+        return $this->belongsTo(Collection::class);
+    }
+
+    public function variants(): HasMany
     {
         return $this->hasMany(ProductVariant::class);
+    }
+
+    public function activeVariants(): HasMany
+    {
+        return $this->hasMany(ProductVariant::class)->where('is_active', true);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('sort_order');
+    }
+
+    public function primaryImage(): HasMany
+    {
+        return $this->hasMany(ProductImage::class)->where('is_primary', true)->limit(1);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class)->where('is_approved', true);
+    }
+
+    // --- Accessors ---
+
+    public function getMinPriceAttribute(): float
+    {
+        return $this->activeVariants->map->computed_price->min() ?? 0;
+    }
+
+    public function getAverageRatingAttribute(): float
+    {
+        return round($this->reviews()->avg('rating') ?? 0, 1);
     }
 }

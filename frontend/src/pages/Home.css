@@ -437,7 +437,7 @@
   }
 }
 
-/* --- Story Section --- */
+/* --- story Section --- */
 .story-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -659,20 +659,125 @@
 }
 
 @media (max-width: 768px) {
-  .hero__content h1 {
-    font-size: clamp(2.5rem, 8vw, 3.5rem);
+  /* Hero */
+  .hero-editorial {
+    min-height: 70vh;
   }
-  
+
+  /* Section Padding */
+  .section {
+    padding: var(--space-3xl) 0;
+  }
+
+  /* Section Header */
+  .section-header {
+    margin-bottom: var(--space-2xl);
+  }
+
+  .section-title {
+    font-size: var(--text-3xl);
+  }
+
+  /* Trust Grid */
+  .trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  /* Category cards: 2 per row */
+  .category-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .category-card-small__overlay h3 {
+    font-size: 1.1rem;
+  }
+
+  /* Collections grid */
+  .collections-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-card.col-large {
+    grid-row: span 1;
+    aspect-ratio: 4/5;
+  }
+
+  .collection-card__content {
+    padding: var(--space-lg);
+  }
+
+  .collection-card__content h3 {
+    font-size: var(--text-2xl);
+  }
+
+  /* Promo Segments */
+  .promo-segment,
+  .promo-segment--reverse {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .promo-segment .promo-banner,
+  .promo-segment--reverse .promo-banner {
+    order: -1;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .promo-segment--reverse .promo-grid {
+    order: 2;
+  }
+
+  .promo-banner__content {
+    padding: var(--space-lg);
+  }
+
+  .promo-banner__title {
+    font-size: 1.75rem;
+  }
+
+  .promo-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+
+  /* Story Section */
+  .story-content {
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .story-title {
+    font-size: var(--text-3xl);
+  }
+
+  /* Journal Grid */
+  .journal-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+    margin-top: var(--space-xl);
+  }
+
+  .journal-card__title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
   .category-cards-grid {
     grid-template-columns: 1fr;
   }
 
-  .collections-grid {
+  .trust-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .promo-grid {
     grid-template-columns: 1fr;
   }
-  
-  .collection-card.col-large {
-    grid-row: span 1;
-    aspect-ratio: 4/5;
+
+  .bestsellers-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

@@ -420,6 +420,16 @@
 }
 
 @media (max-width: 768px) {
+  .product-page {
+    padding-top: calc(var(--header-height) + var(--space-md));
+    padding-bottom: 110px; /* BottomNav clearance */
+  }
+
+  .breadcrumbs {
+    font-size: 10px;
+    margin-bottom: var(--space-lg);
+  }
+
   .product-title {
     font-size: var(--text-3xl);
   }
@@ -434,25 +444,20 @@
   .tabs-header::-webkit-scrollbar {
     display: none;
   }
-  
-  /* Sticky Mobile Action */
-  .product-actions {
-    position: fixed;
-    bottom: 95px; /* Stay above the floating BottomNav */
-    left: 20px;
-    right: 20px;
-    width: auto;
-    padding: var(--space-md);
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    z-index: 40;
-    margin: 0;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+}
+
+@media (max-width: 480px) {
+  .product-gallery {
+    max-width: 100%;
   }
-  
-  .product-page {
-    padding-bottom: calc(var(--space-4xl) + 80px); /* Account for sticky button */
+
+  .specs-list li {
+    grid-template-columns: 120px 1fr;
+  }
+
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
   }
 }

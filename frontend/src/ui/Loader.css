@@ -1,102 +1,143 @@
-.tory-loader {
+.tori-unique-loader {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-bg);
   z-index: 9999;
+  overflow: hidden;
+  background-color: var(--color-primary);
 }
 
-.tory-loader--full {
+.tori-unique-loader--full {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
 }
 
-.tory-loader__content {
+/* Vertical Panels Reveal */
+.tori-unique-loader__bg-panels {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
+  pointer-events: none;
 }
 
-.tory-loader__logo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.tory-loader__icon {
+.tori-unique-loader__panel {
+  width: 50%;
+  height: 100%;
+  background-color: var(--color-primary);
   position: relative;
-  width: 60px;
-  height: 60px;
+}
+
+/* The Portal & Content */
+.tori-unique-loader__content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+}
+
+.tori-unique-loader__logo-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.tori-unique-loader__portal {
+  position: absolute;
+  top: -40px;
+  width: 160px;
+  height: 160px;
+  border: 1px solid rgba(197, 160, 89, 0.1);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.tori-unique-loader__brand-mark {
+  position: relative;
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--color-accent);
-  border-radius: 50%;
-}
-
-.tory-loader__tc {
-  font-family: var(--font-heading);
-  color: var(--color-accent);
-  font-size: 1.5rem;
-  font-weight: 300;
-  margin-top: 2px;
-}
-
-.tory-loader__sparkle {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 12px;
-  height: 12px;
-  background: white;
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  box-shadow: 0 0 10px white;
-}
-
-.tory-loader__brand {
-  font-family: var(--font-heading);
-  color: var(--color-primary);
-  font-size: 0.75rem;
-  font-weight: 400;
-  white-space: nowrap;
-  background: linear-gradient(
-    to right, 
-    var(--color-primary) 0%, 
-    var(--color-accent) 50%, 
-    var(--color-primary) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shine 3s linear infinite;
-}
-
-.tory-loader__line-wrap {
-  width: 120px;
-  height: 1px;
-  background-color: var(--color-border-light);
   overflow: hidden;
-  position: relative;
 }
 
-.tory-loader__line {
+.tori-unique-loader__img {
   width: 100%;
   height: 100%;
+  object-fit: contain;
+  filter: brightness(1.2);
+}
+
+/* The Light Sweep */
+.tori-unique-loader__shimmer-sweep {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: sweep 2.5s infinite var(--ease-luxury);
+}
+
+@keyframes sweep {
+  0% { left: -150%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+.tori-unique-loader__text-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+.tori-unique-loader__name {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-right: -0.3em; /* Compensate for letter spacing */
+}
+
+.tori-unique-loader__tagline {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(197, 160, 89, 0.6);
+  font-style: italic;
+}
+
+/* Minimalist Progress Line */
+.tori-unique-loader__counter {
+  width: 200px;
+  height: 1px;
+  background-color: rgba(197, 160, 89, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.tori-unique-loader__progress {
+  height: 100%;
   background-color: var(--color-accent);
-  transform-origin: left;
+  box-shadow: 0 0 10px var(--color-accent);
 }
 
-@keyframes shine {
-  to {
-    background-position: 200% center;
-  }
-}
-
-/* Page Loader variants */
-.home-loader, .product-loader {
-  background-color: var(--color-bg);
-}
+/* Exit Animations logic for panels would need to be handled by the parent component or a global state */

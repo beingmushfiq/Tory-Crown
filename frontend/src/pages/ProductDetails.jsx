@@ -15,7 +15,7 @@ import './ProductDetails.css';
 export const ProductDetails = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const addToCart = useCart(state => state.addToCart);
+  const { addToCart, openCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
 
   // Selection state
@@ -84,6 +84,7 @@ export const ProductDetails = () => {
   const handleAddToCart = () => {
     addToCart(product, selectedVariant, selectedSize, 1);
     AnalyticsService.trackAddToCart(product, selectedVariant, 1);
+    openCart();
   };
 
   const handleBuyNow = () => {

@@ -9,6 +9,7 @@ use App\Filament\Resources\GoldRates\Schemas\GoldRateForm;
 use App\Filament\Resources\GoldRates\Tables\GoldRatesTable;
 use App\Models\GoldRate;
 use BackedEnum;
+use UnitEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
@@ -18,9 +19,8 @@ class GoldRateResource extends Resource
 {
     protected static ?string $model = GoldRate::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
-    protected static ?string $recordTitleAttribute = 'karat';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-sparkles';
+    protected static string|UnitEnum|null $navigationGroup = 'Business Logic';
 
     public static function form(Schema $schema): Schema
     {

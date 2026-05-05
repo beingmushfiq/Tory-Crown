@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Coupons\Schemas;
 
-use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
@@ -14,34 +16,35 @@ class CouponForm
         return $schema
             ->components([
                 TextInput::make('code')
-                    ->required()
-                    ->unique(ignoreRecord: true),
-                \Filament\Forms\Components\Select::make('type')
-                    ->options([
-                        'fixed' => 'Fixed Amount',
-                        'percentage' => 'Percentage',
-                    ])
+                    ->required(),
+                Select::make('type')
+                    ->options(['fixed' => 'Fixed', 'percent' => 'Percent'])
+                    ->default('fixed')
                     ->required(),
                 TextInput::make('value')
                     ->required()
-                    ->numeric()
-                    ->helperText('Amount or Percentage value'),
+                    ->numeric(),
                 TextInput::make('min_order_amount')
                     ->required()
                     ->numeric()
-                    ->default(0)
-                    ->prefix('৳'),
+                    ->default(0.0),
+                TextInput::make('max_discount')
+                    ->numeric(),
                 TextInput::make('usage_limit')
+                    ->numeric(),
+                TextInput::make('per_user_limit')
+                    ->required()
                     ->numeric()
-                    ->helperText('Leave empty for unlimited usage'),
+                    ->default(1),
                 TextInput::make('used_count')
+                    ->required()
                     ->numeric()
-                    ->disabled()
                     ->default(0),
-                \Filament\Forms\Components\DateTimePicker::make('starts_at'),
-                \Filament\Forms\Components\DateTimePicker::make('expires_at'),
+                DateTimePicker::make('expires_at'),
                 Toggle::make('is_active')
-                    ->default(true),
+                    ->required(),
+                Textarea::make('description')
+                    ->columnSpanFull(),
             ]);
     }
 }

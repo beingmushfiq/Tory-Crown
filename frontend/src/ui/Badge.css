@@ -1,4 +1,4 @@
-.tory-badge {
+.tori-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -10,17 +10,17 @@
   white-space: nowrap;
 }
 
-.tory-badge--dark {
+.tori-badge--dark {
   background-color: var(--color-primary);
   color: var(--color-white);
 }
 
-.tory-badge--light {
+.tori-badge--light {
   background-color: var(--color-bg);
   color: var(--color-primary);
 }
 
-.tory-badge--accent {
+.tori-badge--accent {
   background-color: var(--color-accent);
   color: var(--color-white);
 }

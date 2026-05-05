@@ -225,7 +225,7 @@ export const products = [
       'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?q=80&w=800',
       'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?q=80&w=800',
     ],
-    description: 'A modern interpretation of the classic signet ring, featuring the Tory Crown monogram hand-engraved in solid 18K gold.',
+    description: 'A modern interpretation of the classic signet ring, featuring the Tori Crown monogram hand-engraved in solid 18K gold.',
     specs: { material: '18K Yellow Gold', engraving: 'Hand-engraved', style: 'Signet', width: '12mm', weight: '9.8g' },
     rating: 4.8,
     reviews: 22,
@@ -241,8 +241,8 @@ export const products = [
 export const storyContent = {
   title: 'The Art of Forever',
   subtitle: 'Our Heritage',
-  body: 'Every piece in the Tory Crown collection is born from a century-old tradition of master craftsmanship. Our artisans pour their soul into every setting, every polish, every stone — creating jewelry that doesn\'t just adorn, but tells a story.',
-  signature: '— House of Tory Crown, est. 1926',
+  body: 'Every piece in the Tori Crown collection is born from a century-old tradition of master craftsmanship. Our artisans pour their soul into every setting, every polish, every stone — creating jewelry that doesn\'t just adorn, but tells a story.',
+  signature: '— House of Tori Crown, est. 1926',
   image: 'https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?q=80&w=1200',
 };
 

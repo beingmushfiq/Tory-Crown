@@ -1,129 +1,172 @@
-.tory-header {
+.tori-header {
   position: fixed;
-  top: 0;
+  top: var(--banner-height, 0);
   left: 0;
   width: 100%;
   height: var(--header-height);
   background-color: transparent;
   z-index: 50;
-  transition: all var(--duration-base) var(--ease-out);
-  border-bottom: 1px solid transparent;
+  transition: all 0.6s var(--ease-luxury);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--color-white);
 }
 
-.tory-header.is-scrolled {
-  background-color: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-border);
+.tori-header.is-scrolled {
+  top: 0;
+  height: 64px;
+  background-color: rgba(255, 252, 251, 0.85); /* Refined off-white */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(197, 160, 89, 0.2); /* Slightly more defined gold border */
   color: var(--color-primary);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
 }
 
-.tory-header__inner {
+.tori-header__inner {
   height: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  display: flex;
   align-items: center;
+  gap: var(--space-3xl);
 }
 
-.tory-header__nav {
+.tori-header__nav {
   display: flex;
   gap: var(--space-xl);
+  flex-grow: 1;
 }
 
-.tory-header__link {
-  font-size: var(--text-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.tori-header__link {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 0.02em;
   color: inherit;
   position: relative;
+  padding: 4px 0;
+  transition: opacity 0.3s ease;
 }
 
-.tory-header__link::after {
+/* Stunning Center-Expanding Underline */
+.tori-header__link::after {
   content: '';
   position: absolute;
-  bottom: -4px;
-  left: 0;
+  bottom: 0;
+  left: 50%;
   width: 0;
   height: 1px;
-  background-color: currentColor;
-  transition: width var(--duration-base) var(--ease-out);
+  background-color: var(--color-accent);
+  transition: all 0.4s var(--ease-luxury);
+  transform: translateX(-50%);
 }
 
-.tory-header__link:hover::after {
+.tori-header__link:hover::after {
   width: 100%;
 }
 
-.tory-header__logo {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.tori-header__link:hover {
+  opacity: 0.8;
 }
 
-.tory-header__logo-img {
-  height: 40px;
+.tori-header__logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.5s var(--ease-luxury);
+}
+
+.tori-header__logo:hover {
+  transform: translateY(-2px);
+}
+
+.tori-header__logo-img {
+  height: 56px;
   width: auto;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
-.tory-header__logo-text {
+.tori-header__logo-text {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
-  letter-spacing: 0.05em;
-  margin-left: 10px;
-  color: var(--color-primary);
-  white-space: nowrap;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent); /* Always gold */
 }
 
-.tory-header__logo-img:hover {
-  transform: scale(1.05);
+.tori-header.is-scrolled .tori-header__logo-img {
+  height: 44px;
 }
 
-.tory-header__actions {
+.tori-header.is-scrolled .tori-header__logo-text {
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+}
+
+.tori-header.is-scrolled .tori-header__logo-text {
+  color: var(--color-accent);
+}
+
+.tori-header__right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xl);
+}
+
+.tori-header__actions {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-lg);
 }
 
-.tory-header__action-btn {
+.tori-header__action-btn {
   position: relative;
   color: inherit;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity var(--duration-fast);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.3s var(--ease-luxury);
 }
 
-.tory-header__action-btn:hover {
-  opacity: 0.7;
+.tori-header__action-btn:hover {
+  background-color: rgba(197, 160, 89, 0.1);
+  color: var(--color-accent);
+  transform: translateY(-1px);
 }
 
-.tory-header__badge {
+.tori-header__badge {
   position: absolute;
-  top: -6px;
-  right: -8px;
+  top: 6px;
+  right: 6px;
   background-color: var(--color-accent);
   color: var(--color-white);
-  font-size: 10px;
-  font-weight: 600;
-  min-width: 16px;
-  height: 16px;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 15px;
+  height: 15px;
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 4px;
+  border: 1.5px solid var(--color-bg);
 }
 
-.tory-header__menu-btn {
+.tori-header__menu-btn {
   display: none;
   color: inherit;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Mobile Menu */
-.tory-mobile-menu {
+/* Mobile Menu Styling */
+.tori-mobile-menu {
   position: fixed;
   top: 0;
   left: 0;
@@ -133,89 +176,120 @@
   pointer-events: none;
 }
 
-.tory-mobile-menu.is-open {
+.tori-mobile-menu.is-open {
   pointer-events: auto;
 }
 
-.tory-mobile-menu__overlay {
+.tori-mobile-menu__overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--color-overlay);
+  background-color: rgba(10, 17, 40, 0.4);
+  backdrop-filter: blur(4px);
   opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-out);
+  transition: opacity 0.5s ease;
 }
 
-.tory-mobile-menu.is-open .tory-mobile-menu__overlay {
+.tori-mobile-menu.is-open .tori-mobile-menu__overlay {
   opacity: 1;
 }
 
-.tory-mobile-menu__content {
+.tori-mobile-menu__content {
   position: absolute;
   top: 0;
   left: 0;
-  width: 85%;
-  max-width: 400px;
+  width: 80%;
+  max-width: 360px;
   height: 100%;
   background-color: var(--color-bg);
   transform: translateX(-100%);
-  transition: transform var(--duration-base) var(--ease-luxury);
+  transition: transform 0.6s var(--ease-luxury);
   display: flex;
   flex-direction: column;
+  padding: var(--space-xl);
+  box-shadow: 20px 0 60px rgba(0,0,0,0.1);
 }
 
-.tory-mobile-menu.is-open .tory-mobile-menu__content {
+.tori-mobile-menu.is-open .tori-mobile-menu__content {
   transform: translateX(0);
 }
 
-.tory-mobile-menu__header {
+.tori-mobile-menu__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-lg) var(--space-xl);
-  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-2xl);
 }
 
-.tory-mobile-menu__title {
+.tori-mobile-menu__title {
   font-family: var(--font-heading);
-  font-size: var(--text-xl);
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-accent);
 }
 
-.tory-mobile-menu__nav {
-  padding: var(--space-xl);
+.tori-mobile-menu__nav {
   display: flex;
   flex-direction: column;
   gap: var(--space-lg);
 }
 
-.tory-mobile-menu__nav a {
-  font-size: var(--text-lg);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid transparent;
-  width: fit-content;
+.tori-mobile-menu__nav a {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  border-bottom: 1px solid var(--color-border-light);
+  padding-bottom: var(--space-sm);
+  transition: all 0.3s ease;
+}
+
+.tori-mobile-menu__nav a:hover {
+  color: var(--color-accent);
+  padding-left: 8px;
+}
+
+@media (max-width: 1024px) {
+  .tori-header__nav {
+    gap: var(--space-lg);
+  }
 }
 
 @media (max-width: 768px) {
-  .tory-header__inner {
-    grid-template-columns: auto 1fr auto;
+  .tori-header__inner {
+    justify-content: space-between;
+    gap: var(--space-sm);
   }
-  .tory-header__nav {
+  .tori-header__nav {
     display: none;
   }
-  .tory-header__menu-btn {
-    display: block;
+  .tori-header__right nav {
+    display: none;
   }
-  .tory-header__logo-img {
-    height: 32px;
+  .tori-header__menu-btn {
+    display: flex;
   }
-  .tory-header__logo-text {
-    font-size: 1.1rem;
-    margin-left: 6px;
+  .tori-header__logo-img {
+    height: 40px;
   }
-  .tory-header__actions .tory-header__action-btn:not(:first-child) {
-    display: none; /* Hide redundant Wishlist/Cart from top on mobile */
+  .tori-header__logo-text {
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+  }
+  /* Show all action buttons on mobile */
+  .tori-header__actions .tori-header__action-btn {
+    display: flex;
+  }
+  .tori-header__actions {
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 380px) {
+  .tori-header__logo-text {
+    display: none; /* Very small screens: logo image only */
   }
 }

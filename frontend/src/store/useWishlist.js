@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 
-const WISHLIST_KEY = 'torycrown_wishlist';
+const WISHLIST_KEY = 'Tori Crown_wishlist';
 
 const getStoredWishlist = () => {
   try {

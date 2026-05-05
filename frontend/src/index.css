@@ -1,5 +1,5 @@
 /* ============================================
-   TORY CROWN — LUXURY DESIGN SYSTEM
+   Tori Crown — LUXURY DESIGN SYSTEM
    ============================================ */
 
 /* --- CSS Custom Properties --- */
@@ -176,6 +176,51 @@ h1, h2, h3, h4, h5, h6 {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border-width: 0;
+}
+
+.gold-divider {
+  width: 60px;
+  height: 2px;
+  background-color: var(--color-accent);
+  margin: var(--space-md) 0 var(--space-lg);
+}
+
+.gold-divider-center {
+  width: 80px;
+  height: 2px;
+  background-color: var(--color-accent);
+  margin: var(--space-md) auto var(--space-xl);
+}
+
+.gold-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  padding: 16px 32px;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: all 0.4s var(--ease-luxury);
+  border: 1px solid var(--color-accent);
+}
+
+.gold-btn:hover {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.section {
+  padding: var(--space-5xl) 0;
+}
+
+.bg-warm {
+  background-color: var(--color-bg-warm);
 }
 
 /* --- Scrollbar Styling --- */

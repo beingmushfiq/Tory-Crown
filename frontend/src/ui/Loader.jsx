@@ -1,52 +1,61 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Loader.css';
 
 export const Loader = ({ fullScreen = true }) => {
   return (
-    <div className={`tory-loader ${fullScreen ? 'tory-loader--full' : ''}`}>
-      <div className="tory-loader__content">
-        {/* The Monogram/Logo Animation */}
+    <div className={`tori-unique-loader ${fullScreen ? 'tori-unique-loader--full' : ''}`}>
+      <div className="tori-unique-loader__bg-panels">
         <motion.div 
-          className="tory-loader__logo"
-          initial={{ opacity: 0, scale: 0.9 }}
+          className="tori-unique-loader__panel tori-unique-loader__panel--left"
+          initial={{ x: 0 }}
+          exit={{ x: '-100%' }}
+          transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
+        />
+        <motion.div 
+          className="tori-unique-loader__panel tori-unique-loader__panel--right"
+          initial={{ x: 0 }}
+          exit={{ x: '100%' }}
+          transition={{ duration: 1.2, ease: [0.77, 0, 0.175, 1] }}
+        />
+      </div>
+
+      <div className="tori-unique-loader__content">
+        <motion.div 
+          className="tori-unique-loader__logo-wrap"
+          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
         >
-          <div className="tory-loader__icon">
-            <span className="tory-loader__tc">TC</span>
-            <motion.div 
-              className="tory-loader__sparkle"
-              animate={{ 
-                opacity: [0, 1, 0],
-                scale: [0.5, 1.2, 0.5],
-                rotate: [0, 45, 90]
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-          </div>
-          
+          {/* The Portal Ring */}
           <motion.div 
-            className="tory-loader__brand"
-            initial={{ letterSpacing: '0.2em', opacity: 0 }}
-            animate={{ letterSpacing: '0.5em', opacity: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="tori-unique-loader__portal"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          />
+
+          <div className="tori-unique-loader__brand-mark">
+            <img src="/logo.png" alt="Tori Crown" className="tori-unique-loader__img" />
+            <div className="tori-unique-loader__shimmer-sweep" />
+          </div>
+
+          <motion.div 
+            className="tori-unique-loader__text-wrap"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 1 }}
           >
-            TORY CROWN
+            <span className="tori-unique-loader__name">Tori Crown</span>
+            <span className="tori-unique-loader__tagline">Crafted for Eternity</span>
           </motion.div>
         </motion.div>
 
-        {/* The Elegant Progress Line */}
-        <div className="tory-loader__line-wrap">
+        {/* The Minimalist Counter */}
+        <div className="tori-unique-loader__counter">
           <motion.div 
-            className="tory-loader__line"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: [0, 1, 0] }}
-            transition={{ 
-              duration: 2.5, 
-              repeat: Infinity, 
-              ease: "easeInOut",
-              times: [0, 0.5, 1]
-            }}
+            className="tori-unique-loader__progress"
+            initial={{ width: 0 }}
+            animate={{ width: '100%' }}
+            transition={{ duration: 3, ease: "easeInOut" }}
           />
         </div>
       </div>

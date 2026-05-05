@@ -60,7 +60,7 @@
 .checkout-form-group input:focus,
 .checkout-form-group select:focus {
   outline: none;
-  border-color: var(--color-gold);
+  border-color: var(--color-accent);
 }
 
 /* Shipping & Payment Methods */
@@ -81,8 +81,8 @@
 }
 
 .method-option.selected {
-  border-color: var(--color-gold);
-  background-color: rgba(212, 175, 55, 0.05);
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-light);
 }
 
 .method-info {
@@ -101,12 +101,16 @@
   justify-content: center;
 }
 
+.method-option.selected .method-radio {
+  border-color: var(--color-accent);
+}
+
 .method-option.selected .method-radio::after {
   content: '';
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: var(--color-gold);
+  background-color: var(--color-accent);
 }
 
 /* Order Summary */
@@ -169,7 +173,7 @@
 .summary-row.total {
   font-family: var(--font-heading);
   font-size: 1.5rem;
-  color: var(--color-gold);
+  color: var(--color-accent);
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid var(--color-border);
@@ -184,5 +188,29 @@
   .order-summary {
     order: -1;
     padding: 30px 20px;
+    position: static; /* disable sticky on mobile */
+  }
+
+  .checkout-page {
+    padding: calc(var(--header-height) + var(--space-xl)) 0 var(--space-3xl);
+  }
+}
+
+@media (max-width: 600px) {
+  .checkout-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .checkout-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .summary-row.total {
+    font-size: 1.25rem;
+  }
+
+  .order-summary {
+    padding: 20px 16px;
   }
 }

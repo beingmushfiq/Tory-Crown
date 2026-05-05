@@ -5,7 +5,10 @@ namespace App\Filament\Resources\Orders\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
 class OrdersTable
@@ -16,58 +19,57 @@ class OrdersTable
             ->columns([
                 TextColumn::make('order_number')
                     ->searchable(),
-                TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('customer_name')
+                TextColumn::make('user.name')
                     ->searchable(),
-                TextColumn::make('customer_email')
+                TextColumn::make('coupon.id')
                     ->searchable(),
-                TextColumn::make('customer_phone')
+                TextColumn::make('status')
+                    ->badge(),
+                TextColumn::make('recipient_name')
                     ->searchable(),
-                TextColumn::make('city')
+                TextColumn::make('recipient_phone')
+                    ->searchable(),
+                TextColumn::make('shipping_city')
+                    ->searchable(),
+                TextColumn::make('shipping_district')
                     ->searchable(),
                 TextColumn::make('subtotal')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('vat_total')
+                TextColumn::make('shipping_fee')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('shipping_charge')
+                TextColumn::make('coupon_discount')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('discount_total')
+                TextColumn::make('vat')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('grand_total')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('partial_advance')
+                TextColumn::make('total')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('payment_method')
-                    ->searchable(),
+                    ->badge(),
                 TextColumn::make('payment_status')
+                    ->badge(),
+                TextColumn::make('advance_paid')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('courier')
                     ->searchable(),
-                TextColumn::make('order_status')
+                TextColumn::make('courier_service')
                     ->searchable(),
-                TextColumn::make('courier_status')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'pending' => 'warning',
-                        'delivered' => 'success',
-                        'cancelled' => 'danger',
-                        'returned' => 'danger',
-                        'in_transit' => 'info',
-                        default => 'gray',
-                    })
+                TextColumn::make('courier_charge')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('fraud_score')
+                    ->numeric()
+                    ->sortable(),
+                TextColumn::make('source')
                     ->searchable(),
-                TextColumn::make('consignment_id')
-                    ->searchable(),
-                TextColumn::make('tracking_url')
-                    ->searchable(),
-                TextColumn::make('event_id')
-                    ->searchable(),
+                TextColumn::make('tenant_id')
+                    ->numeric()
+                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -76,99 +78,22 @@ class OrdersTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('deleted_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TrashedFilter::make(),
             ])
             ->recordActions([
                 EditAction::make(),
-                \Filament\Tables\Actions\Action::make('dispatch')
-                    ->label('Dispatch')
-                    ->icon('heroicon-o-truck')
-                    ->color('success')
-                    ->requiresConfirmation()
-                    ->modalHeading('Dispatch to Steadfast')
-                    ->modalDescription('Are you sure you want to send this order to Steadfast Courier?')
-                    ->visible(fn ($record) => empty($record->consignment_id))
-                    ->action(function ($record) {
-                        $courierService = app(\App\Services\CourierService::class);
-                        $result = $courierService->createSteadfastOrder($record);
-                        
-                        if ($result['success']) {
-                            \Filament\Notifications\Notification::make()
-                                ->title('Dispatched')
-                                ->success()
-                                ->body($result['message'])
-                                ->send();
-                        } else {
-                            \Filament\Notifications\Notification::make()
-                                ->title('Dispatch Failed')
-                                ->danger()
-                                ->body($result['message'])
-                                ->send();
-                        }
-                    }),
-                \Filament\Tables\Actions\Action::make('sync_status')
-                    ->label('Sync Status')
-                    ->icon('heroicon-o-arrow-path')
-                    ->color('info')
-                    ->visible(fn ($record) => !empty($record->consignment_id))
-                    ->action(function ($record) {
-                        $courierService = app(\App\Services\CourierService::class);
-                        $result = $courierService->checkSteadfastStatus($record);
-                        
-                        if ($result['success']) {
-                            \Filament\Notifications\Notification::make()
-                                ->title('Status Updated')
-                                ->success()
-                                ->body($result['message'])
-                                ->send();
-                        } else {
-                            \Filament\Notifications\Notification::make()
-                                ->title('Sync Failed')
-                                ->danger()
-                                ->body($result['message'])
-                                ->send();
-                        }
-                    }),
-                \Filament\Tables\Actions\Action::make('track')
-                    ->label('Track')
-                    ->icon('heroicon-o-magnifying-glass')
-                    ->color('gray')
-                    ->url(fn ($record) => $record->tracking_url)
-                    ->openUrlInNewTab()
-                    ->visible(fn ($record) => !empty($record->tracking_url)),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                    \Filament\Tables\Actions\BulkAction::make('bulk_dispatch')
-                        ->label('Bulk Dispatch to Steadfast')
-                        ->icon('heroicon-o-truck')
-                        ->color('success')
-                        ->requiresConfirmation()
-                        ->action(function (\Illuminate\Support\Collection $records) {
-                            $courierService = app(\App\Services\CourierService::class);
-                            $successCount = 0;
-                            $failCount = 0;
-
-                            foreach ($records as $record) {
-                                if (empty($record->consignment_id)) {
-                                    $result = $courierService->createSteadfastOrder($record);
-                                    if ($result['success']) {
-                                        $successCount++;
-                                    } else {
-                                        $failCount++;
-                                    }
-                                }
-                            }
-
-                            \Filament\Notifications\Notification::make()
-                                ->title('Bulk Dispatch Finished')
-                                ->success()
-                                ->body("Successfully dispatched {$successCount} orders. Failed: {$failCount}")
-                                ->send();
-                        }),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
                 ]),
             ]);
     }

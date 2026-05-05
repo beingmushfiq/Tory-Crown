@@ -39,8 +39,8 @@ export const BottomNav = () => {
         <span>Bag</span>
       </Link>
 
-      <Link to="/profile" className={`bottom-nav__item ${isActive('/profile') ? 'is-active' : ''}`}>
-        <User size={20} strokeWidth={isActive('/profile') ? 2 : 1.5} />
+      <Link to="/login" className={`bottom-nav__item ${isActive('/profile') || isActive('/login') ? 'is-active' : ''}`}>
+        <User size={20} strokeWidth={isActive('/profile') || isActive('/login') ? 2 : 1.5} />
         <span>Me</span>
       </Link>
     </nav>

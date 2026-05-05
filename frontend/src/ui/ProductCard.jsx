@@ -28,11 +28,11 @@ export const ProductCard = ({ product }) => {
       <div className="product-card__image-wrap">
         <Link to={`/product/${product.slug}`} className="product-card__link">
           <img 
-            src={product.images?.[0] || 'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tory+Crown'} 
+            src={product.images?.[0] || 'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown'} 
             alt={product.name} 
             className="product-card__img product-card__img--main"
             loading="lazy"
-            onError={(e) => { e.target.src = 'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tory+Crown'; }}
+            onError={(e) => { e.target.src = 'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown'; }}
           />
           {product.images?.[1] && (
             <img 

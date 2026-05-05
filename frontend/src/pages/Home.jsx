@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../ui/Button';
 import { ProductCard } from '../ui/ProductCard';
 import { useQuery } from '@tanstack/react-query';
-import { getHeroData, getBestSellers, getStoryContent, getTrustBadges } from '../services/api';
+import { getHeroData, getBestSellers, getstoryContent, getTrustBadges } from '../services/api';
 import { Loader } from '../ui/Loader';
 import { Shield, Gem, Truck, RefreshCcw } from 'lucide-react';
 import './Home.css';
@@ -18,10 +18,10 @@ const IconMap = {
 export const Home = () => {
   const { data: heroData, isLoading: heroLoading } = useQuery({ queryKey: ['hero'], queryFn: getHeroData });
   const { data: bestSellers = [], isLoading: bestSellersLoading } = useQuery({ queryKey: ['best-sellers'], queryFn: getBestSellers });
-  const { data: storyContent, isLoading: storyLoading } = useQuery({ queryKey: ['story'], queryFn: getStoryContent });
+  const { data: storyContent, isLoading: StoryLoading } = useQuery({ queryKey: ['Story'], queryFn: getstoryContent });
   const { data: trustBadges = [], isLoading: trustLoading } = useQuery({ queryKey: ['trust-badges'], queryFn: getTrustBadges });
 
-  const isLoading = heroLoading || bestSellersLoading || storyLoading || trustLoading;
+  const isLoading = heroLoading || bestSellersLoading || StoryLoading || trustLoading;
 
   if (isLoading || !heroData) {
     return <Loader />;
@@ -76,7 +76,7 @@ export const Home = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000" alt="Tory Crown High Jewelry" className="img-main" onError={(e) => { e.target.src = 'https://via.placeholder.com/1000x1200/0A1128/C5A059?text=Tory+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000" alt="Tori Crown High Jewelry" className="img-main" onError={(e) => { e.target.src = 'https://via.placeholder.com/1000x1200/0A1128/C5A059?text=Tori+Crown'; }} />
             </motion.div>
             
             <motion.div 
@@ -171,12 +171,12 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1515562141589-67f0d569b610?q=80&w=1200" alt="Diamond Symphony" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tory+Crown'; }} />
+              <img src="https://images.pexels.com/photos/2735970/pexels-photo-2735970.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Diamond Symphony" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">High Jewelry</span>
                 <h2 className="promo-banner__title">The Diamond Symphony</h2>
-                <Button variant="primary">Shop Diamonds</Button>
+                <Button variant="primary" as={Link} to="/collections?category=Diamond">Shop Diamonds</Button>
               </div>
             </motion.div>
             <div className="promo-grid">
@@ -199,12 +199,12 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?q=80&w=1200" alt="Royal Kundan" className="promo-banner__img" style={{objectPosition: 'top'}} loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tory+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?q=80&w=1200" alt="Royal Kundan" className="promo-banner__img" style={{objectPosition: 'top'}} loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">Heritage Collection</span>
                 <h2 className="promo-banner__title">Royal Kundan Series</h2>
-                <Button variant="primary">Discover Kundan</Button>
+                <Button variant="primary" as={Link} to="/collections?category=Gold">Discover Kundan</Button>
               </div>
             </motion.div>
             <div className="promo-grid">
@@ -227,12 +227,12 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1200" alt="Minimalist Gold" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tory+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1200" alt="Minimalist Gold" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">Daily Elegance</span>
                 <h2 className="promo-banner__title">Minimalist 21K Gold</h2>
-                <Button variant="primary">Shop Everyday Wear</Button>
+                <Button variant="primary" as={Link} to="/collections?category=Minimalist">Shop Everyday Wear</Button>
               </div>
             </motion.div>
             <div className="promo-grid">
@@ -255,12 +255,12 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1200" alt="Eid Exclusive" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tory+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1200" alt="Eid Exclusive" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">Festive Special</span>
                 <h2 className="promo-banner__title">Eid Exclusive 2026</h2>
-                <Button variant="primary">View Festive Pieces</Button>
+                <Button variant="primary" as={Link} to="/collections?category=All">View Festive Pieces</Button>
               </div>
             </motion.div>
             <div className="promo-grid">
@@ -283,12 +283,12 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1200" alt="Bridal Collection" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tory+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1200" alt="Bridal Collection" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">The 2026 Edition</span>
                 <h2 className="promo-banner__title">Bridal Masterpieces</h2>
-                <Button variant="primary">Explore Collection</Button>
+                <Button variant="primary" as={Link} to="/collections?category=Bridal">Explore Collection</Button>
               </div>
             </motion.div>
             <div className="promo-grid">
@@ -306,7 +306,7 @@ export const Home = () => {
           <div className="section-header">
             <h2 className="section-title">The Maison Journal</h2>
             <div className="gold-divider-center" />
-            <p style={{textAlign: 'center', marginTop: '16px', color: 'var(--color-text-light)'}}>Stories of craftsmanship, heritage, and style.</p>
+            <p style={{textAlign: 'center', marginTop: '16px', color: 'var(--color-text-light)'}}>stories of craftsmanship, heritage, and style.</p>
           </div>
           
           <div className="journal-grid">
@@ -318,7 +318,7 @@ export const Home = () => {
                 date: "May 2, 2026"
               },
               {
-                img: "https://images.unsplash.com/photo-1573408301145-b98c4af01158?q=80&w=800",
+                img: "https://images.pexels.com/photos/177332/pexels-photo-177332.jpeg?auto=compress&cs=tinysrgb&w=800",
                 cat: "Craftsmanship",
                 title: "The Art of the Perfect Cut: Behind Our Diamonds",
                 date: "April 28, 2026"
@@ -339,7 +339,7 @@ export const Home = () => {
                 transition={{ duration: 1.0, delay: idx * 0.15, ease: "easeOut" }}
               >
                 <div className="journal-card__img-wrap">
-                  <img src={post.img} alt={post.title} loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/800x600/0A1128/C5A059?text=Tory+Crown'; }} />
+                  <img src={post.img} alt={post.title} loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/800x600/0A1128/C5A059?text=Tori+Crown'; }} />
                 </div>
                 <div className="journal-card__content">
                   <span className="journal-card__category">{post.cat}</span>
@@ -355,7 +355,7 @@ export const Home = () => {
       {/* Story Section */}
       <section className="story-section">
         <div className="story-image">
-          <img src={storyContent.image} alt="Craftsmanship" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x1200/0A1128/C5A059?text=Tory+Crown'; }} />
+          <img src={storyContent.image} alt="Craftsmanship" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x1200/0A1128/C5A059?text=Tori+Crown'; }} />
         </div>
         <div className="story-content">
           <motion.div 
@@ -370,7 +370,7 @@ export const Home = () => {
             <div className="gold-divider" />
             <p className="story-body">{storyContent.body}</p>
             <p className="story-signature">{storyContent.signature}</p>
-            <Button variant="outline" className="story-btn">Read Our Story</Button>
+            <Button variant="outline" className="story-btn" as={Link} to="/about">Read Our Story</Button>
           </motion.div>
         </div>
       </section>

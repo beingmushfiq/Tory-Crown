@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\GoldRates\Schemas;
 
-use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Card;
 use Filament\Schemas\Schema;
 
 class GoldRateForm
@@ -12,22 +14,28 @@ class GoldRateForm
     {
         return $schema
             ->components([
-                \Filament\Forms\Components\Select::make('karat')
-                    ->options([
-                        '18K' => '18K',
-                        '21K' => '21K',
-                        '22K' => '22K',
-                        '24K' => '24K',
-                    ])
-                    ->required(),
-                TextInput::make('price_per_gram')
-                    ->required()
-                    ->numeric()
-                    ->prefix('৳')
-                    ->helperText('Current gold price per gram in BDT'),
-                \Filament\Forms\Components\DateTimePicker::make('effective_date')
-                    ->required()
-                    ->default(now()),
+                Card::make()->schema([
+                    Select::make('karat')
+                        ->options([
+                            '18K' => '18 Karat',
+                            '21K' => '21 Karat',
+                            '22K' => '22 Karat',
+                            '24K' => '24 Karat',
+                        ])
+                        ->required()
+                        ->label('Gold Purity (Karat)'),
+                    
+                    TextInput::make('price_per_gram')
+                        ->numeric()
+                        ->required()
+                        ->prefix('BDT')
+                        ->label('Price per Gram'),
+
+                    DateTimePicker::make('effective_date')
+                        ->required()
+                        ->default(now())
+                        ->label('Effective From'),
+                ])->columns(2)
             ]);
     }
 }

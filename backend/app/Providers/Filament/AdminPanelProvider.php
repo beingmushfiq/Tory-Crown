@@ -36,10 +36,17 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Dashboard::class,
             ])
+            ->navigationGroups([
+                'Catalog',
+                'Sales & Revenue',
+                'Content Management',
+                'Business Logic',
+                'Audit & Logs',
+                'System Management',
+            ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                // Widgets are discovered automatically
             ])
             ->middleware([
                 EncryptCookies::class,

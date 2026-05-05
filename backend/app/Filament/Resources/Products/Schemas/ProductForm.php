@@ -3,11 +3,13 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Repeater;
+use Filament\Schemas\Components\Grid;
+use Filament\Forms\Components\RichEditor;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Repeater;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
 
@@ -17,80 +19,52 @@ class ProductForm
     {
         return $schema
             ->components([
-                \Filament\Forms\Components\Section::make('General Information')
-                    ->schema([
+                Grid::make(3)->schema([
+                    Section::make('Product Details')->schema([
                         TextInput::make('name')
                             ->required()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(function ($state, callable $set) {
-                                $set('slug', Str::slug($state));
-                                $set('meta_title', $state . ' | Tory Crown');
-                            }),
+                            ->afterStateUpdated(fn (string $operation, $state, \Filament\Forms\Set $set) => $operation === 'create' ? $set('slug', Str::slug($state)) : null),
                         TextInput::make('slug')
                             ->required()
-                            ->unique(ignoreRecord: true)
-                            ->helperText('Automatically generated from name.'),
-                        Textarea::make('description')
-                            ->columnSpanFull()
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function ($state, callable $set) {
-                                $set('meta_description', Str::limit(strip_tags($state), 160));
-                            }),
-                    ])->columns(2),
-
-                \Filament\Forms\Components\Section::make('Search Engine Optimization (SEO)')
-                    ->description('Optimize how this product appears in search engines like Google.')
-                    ->collapsible()
-                    ->collapsed()
-                    ->schema([
-                        TextInput::make('meta_title')
-                            ->label('Meta Title')
-                            ->placeholder('Product Name | Tory Crown')
-                            ->maxLength(60),
-                        Textarea::make('meta_description')
-                            ->label('Meta Description')
-                            ->placeholder('A brief summary of the product for search results...')
-                            ->maxLength(160)
-                            ->columnSpanFull(),
-                        TextInput::make('meta_keywords')
-                            ->label('Meta Keywords')
-                            ->placeholder('jewelry, gold, necklace, tory crown'),
-                    ])->columns(2),
-
-                \Filament\Forms\Components\Section::make('Categorization & Marketing')
-                    ->schema([
-                        TextInput::make('category'),
-                        TextInput::make('collection'),
-                        TextInput::make('vat_percentage')
+                            ->unique(ignoreRecord: true),
+                        TextInput::make('sku')
+                            ->label('Base SKU')
+                            ->required(),
+                        TextInput::make('tag_price')
                             ->numeric()
-                            ->default(5)
-                            ->suffix('%'),
-                        \Filament\Forms\Components\Group::make([
-                            Toggle::make('is_active')
-                                ->default(true),
-                            Toggle::make('is_featured')
-                                ->default(false),
-                        ])->columns(2),
-                    ])->columns(2),
-
-                \Filament\Forms\Components\Section::make('Media')
-                    ->schema([
-                        \Filament\Forms\Components\SpatieMediaLibraryFileUpload::make('images')
-                            ->collection('products')
-                            ->multiple()
-                            ->reorderable()
-                            ->responsiveImages()
-                            ->conversion('thumb')
+                            ->label('Tag Price (BDT)')
+                            ->helperText('Price to be printed on the barcode tag'),
+                        Select::make('category_id')
+                            ->relationship('category', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        Select::make('collection_id')
+                            ->relationship('collection', 'name')
+                            ->searchable()
+                            ->preload(),
+                        RichEditor::make('description')
                             ->columnSpanFull(),
-                    ]),
-                
-                \Filament\Forms\Components\Section::make('Jewelry Variants & Inventory')
-                    ->description('Manage different weights, karats, and stock levels.')
-                    ->schema([
-                        Repeater::make('variants')
-                            ->relationship()
-                            ->schema([
-                                TextInput::make('sku')->required()->unique(ignoreRecord: true),
+                    ])->columns(2)->columnSpan(2),
+
+                    Section::make('Status & Organization')->schema([
+                        Toggle::make('is_active')
+                            ->default(true),
+                        Toggle::make('is_featured'),
+                        TextInput::make('gold_rate_override')
+                            ->numeric()
+                            ->helperText('Override the daily gold rate just for this product (optional)'),
+                    ])->columnSpan(1),
+                ]),
+
+                Section::make('Product Variants')->schema([
+                    Repeater::make('variants')
+                        ->relationship()
+                        ->schema([
+                            Grid::make(3)->schema([
+                                TextInput::make('sku')->required(),
+                                TextInput::make('size'),
                                 Select::make('karat')
                                     ->options([
                                         '18K' => '18K',
@@ -98,21 +72,48 @@ class ProductForm
                                         '22K' => '22K',
                                         '24K' => '24K',
                                     ])->required(),
-                                TextInput::make('weight_in_grams')
+                                TextInput::make('tag_price')
                                     ->numeric()
+                                    ->label('Tag Price (BDT)'),
+                            ]),
+                            Grid::make(3)->schema([
+                                TextInput::make('weight_grams')
+                                    ->numeric()
+                                    ->step('0.01')
                                     ->required()
-                                    ->suffix('g')
-                                    ->helperText('Weight used for dynamic pricing'),
-                                TextInput::make('size'),
+                                    ->label('Gold Weight (g)'),
                                 TextInput::make('making_charge')
                                     ->numeric()
                                     ->required()
-                                    ->prefix('৳'),
-                                TextInput::make('stock')
-                                    ->numeric()
                                     ->default(0),
-                            ])->columnSpanFull()->columns(3)
-                    ])
+                                TextInput::make('base_price_override')
+                                    ->numeric()
+                                    ->helperText('Fixed price (ignores gold weight calculation)'),
+                            ]),
+                            Grid::make(3)->schema([
+                                TextInput::make('stone_type'),
+                                TextInput::make('stone_weight')->numeric()->step('0.01'),
+                                TextInput::make('stock_qty')->numeric()->required()->default(0),
+                            ]),
+                        ])
+                        ->collapsible()
+                        ->itemLabel(fn (array $state): ?string => $state['sku'] ?? null)
+                        ->defaultItems(1),
+                ]),
+
+                Section::make('Images')->schema([
+                    Repeater::make('images')
+                        ->relationship()
+                        ->schema([
+                            FileUpload::make('url')
+                                ->image()
+                                ->directory('products')
+                                ->required(),
+                            Toggle::make('is_primary'),
+                        ])
+                        ->grid(3)
+                        ->collapsible(),
+                ]),
             ]);
     }
 }

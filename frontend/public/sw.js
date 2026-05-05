@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tory-crown-v1';
+const CACHE_NAME = 'tori-crown-v1';
 const urlsToCache = [
   '/',
   '/index.html',

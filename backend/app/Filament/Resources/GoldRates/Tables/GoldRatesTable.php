@@ -5,6 +5,7 @@ namespace App\Filament\Resources\GoldRates\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -15,12 +16,17 @@ class GoldRatesTable
         return $table
             ->columns([
                 TextColumn::make('karat')
-                    ->searchable(),
+                    ->badge(),
                 TextColumn::make('price_per_gram')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('effective_date')
                     ->date()
+                    ->sortable(),
+                IconColumn::make('is_active')
+                    ->boolean(),
+                TextColumn::make('updated_by')
+                    ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
