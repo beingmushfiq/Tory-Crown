@@ -140,6 +140,20 @@ export const getProductBySlug = async (slug) => {
 };
 
 /* --- Orders --- */
+export const getMyOrders = async () => {
+  try {
+    const res = await apiClient.get('/orders');
+    if (res.data && res.data.data) {
+      // Laravel paginate returns data in .data
+      return res.data.data.data || res.data.data;
+    }
+    return [];
+  } catch (error) {
+    console.error('Failed to fetch orders:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
+};
+
 export const createOrder = async (orderData) => {
   try {
     const res = await apiClient.post('/orders', orderData);

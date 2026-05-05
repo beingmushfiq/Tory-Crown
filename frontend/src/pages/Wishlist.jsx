@@ -44,7 +44,7 @@ export const Wishlist = () => {
 
             <div className="wishlist-grid">
               <AnimatePresence mode="popLayout">
-                {wishlist.map((product, idx) => (
+                {wishlist.map((product) => (
                   <motion.div 
                     key={product.id}
                     layout

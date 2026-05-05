@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { getProducts } from '../services/api';
 import { ProductCard } from '../ui/ProductCard';
 import { Loader } from '../ui/Loader';
-import { Filter, X, ChevronDown, SlidersHorizontal } from 'lucide-react';
+import { X, SlidersHorizontal } from 'lucide-react';
 import './Collections.css';
 
 const CATEGORIES = ['All', 'Diamond', 'Gold', 'Bridal', 'Minimalist', 'Gemstone'];
@@ -18,9 +18,7 @@ const SORT_OPTIONS = [
 
 export const Collections = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialCategory = searchParams.get('category') || 'All';
-  
-  const [activeCategory, setActiveCategory] = useState(initialCategory);
+  const activeCategory = searchParams.get('category') || 'All';
   const [activeSort, setActiveSort] = useState('newest');
   const [showMobileFilters, setShowMobileFilters] = useState(false);
 
@@ -32,14 +30,7 @@ export const Collections = () => {
     })
   });
 
-  // Sync category state with URL
-  useEffect(() => {
-    const cat = searchParams.get('category');
-    if (cat) setActiveCategory(cat);
-  }, [searchParams]);
-
   const handleCategoryChange = (cat) => {
-    setActiveCategory(cat);
     setSearchParams({ category: cat });
     if (showMobileFilters) setShowMobileFilters(false);
   };
@@ -138,7 +129,7 @@ export const Collections = () => {
             ) : (
               <div className="no-results">
                 <p>No pieces found in this category.</p>
-                <button className="text-btn" onClick={() => setActiveCategory('All')}>Clear All Filters</button>
+                <button className="text-btn" onClick={() => handleCategoryChange('All')}>Clear All Filters</button>
               </div>
             )}
           </main>

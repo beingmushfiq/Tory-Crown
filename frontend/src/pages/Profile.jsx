@@ -1,29 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Package, Heart, MapPin, Settings, LogOut, ChevronRight } from 'lucide-react';
+import { User, Package, Heart, MapPin, Settings, LogOut } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '../ui/Button';
 import { useWishlist } from '../store/useWishlist';
 import { useAuth } from '../store/useAuth';
-import { logout as apiLogout } from '../services/api';
+import { logout as apiLogout, getMyOrders } from '../services/api';
+import { Loader } from '../ui/Loader';
 import './Profile.css';
-
-const MOCK_USER = {
-  name: 'Jane Doe',
-  email: 'jane.doe@example.com',
-  memberSince: 'May 2026',
-};
-
-const MOCK_ORDERS = [
-  { id: 'ORD-2026-8921', date: 'May 01, 2026', status: 'Processing', total: 4500 },
-  { id: 'ORD-2026-7734', date: 'April 15, 2026', status: 'Shipped', total: 1250 },
-  { id: 'ORD-2026-6102', date: 'March 02, 2026', status: 'Delivered', total: 8900 },
-];
 
 export const Profile = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
   const { wishlistCount } = useWishlist();
   const { user, logout: localLogout, isAuthenticated } = useAuth();
+
+  const { data: orders = [], isLoading: isLoadingOrders } = useQuery({
+    queryKey: ['orders'],
+    queryFn: getMyOrders,
+    enabled: isAuthenticated
+  });
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -43,6 +39,8 @@ export const Profile = () => {
   };
 
   const renderContent = () => {
+    if (isLoadingOrders) return <Loader />;
+
     switch (activeTab) {
       case 'dashboard':
         return (
@@ -51,7 +49,7 @@ export const Profile = () => {
             <div className="dashboard-grid">
               <div className="dashboard-card" onClick={() => setActiveTab('orders')} style={{cursor: 'pointer'}}>
                 <Package size={32} className="dashboard-card__icon" strokeWidth={1.5} />
-                <div className="dashboard-card__value">{MOCK_ORDERS.length}</div>
+                <div className="dashboard-card__value">{orders.length}</div>
                 <div className="dashboard-card__label">Total Orders</div>
               </div>
               <div className="dashboard-card" onClick={() => navigate('/wishlist')} style={{cursor: 'pointer'}}>
@@ -63,23 +61,27 @@ export const Profile = () => {
             
             <div style={{marginTop: 'var(--space-3xl)'}}>
               <h3 className="profile-section-title" style={{fontSize: '1.2rem'}}>Recent Order</h3>
-              {MOCK_ORDERS.slice(0,1).map(order => (
-                <div key={order.id} className="order-card">
-                  <div className="order-card__info">
-                    <span className="order-card__id">{order.id}</span>
-                    <span className="order-card__date">{order.date}</span>
-                    <div>
-                      <span className={`order-card__status status-${order.status.toLowerCase()}`}>
-                        {order.status}
-                      </span>
+              {orders.length > 0 ? (
+                orders.slice(0,1).map(order => (
+                  <div key={order.id} className="order-card">
+                    <div className="order-card__info">
+                      <span className="order-card__id">{order.order_number}</span>
+                      <span className="order-card__date">{new Date(order.created_at).toLocaleDateString()}</span>
+                      <div>
+                        <span className={`order-card__status status-${order.status.toLowerCase()}`}>
+                          {order.status}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="order-card__action">
+                      <span className="order-card__total">${order.total.toLocaleString()}</span>
+                      <Button variant="outline" size="sm" style={{marginLeft: '1rem'}}>View</Button>
                     </div>
                   </div>
-                  <div className="order-card__action">
-                    <span className="order-card__total">${order.total.toLocaleString()}</span>
-                    <Button variant="outline" size="sm" style={{marginLeft: '1rem'}}>View</Button>
-                  </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="profile-empty-inline">No recent orders found.</p>
+              )}
             </div>
           </div>
         );
@@ -88,13 +90,13 @@ export const Profile = () => {
         return (
           <div className="profile-orders">
             <h2 className="profile-section-title">Order History</h2>
-            {MOCK_ORDERS.length > 0 ? (
+            {orders.length > 0 ? (
               <div className="order-list">
-                {MOCK_ORDERS.map(order => (
+                {orders.map(order => (
                   <div key={order.id} className="order-card">
                     <div className="order-card__info">
-                      <span className="order-card__id">{order.id}</span>
-                      <span className="order-card__date">Placed on {order.date}</span>
+                      <span className="order-card__id">{order.order_number}</span>
+                      <span className="order-card__date">Placed on {new Date(order.created_at).toLocaleDateString()}</span>
                       <div>
                         <span className={`order-card__status status-${order.status.toLowerCase()}`}>
                           {order.status}

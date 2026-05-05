@@ -314,7 +314,6 @@
   width: 100%;
   height: 100%;
   position: relative;
-  group: true;
 }
 
 .collection-card__img-wrap {

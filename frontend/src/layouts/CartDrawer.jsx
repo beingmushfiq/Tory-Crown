@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart, selectCartTotal, selectCartCount } from '../store/useCart';
-import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { X, ShoppingBag, Plus, Minus, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './CartDrawer.css';
 
 export const CartDrawer = ({ isOpen, onClose }) => {
