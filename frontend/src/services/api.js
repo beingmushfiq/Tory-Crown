@@ -7,12 +7,41 @@ import { heroData, collections, products, storyContent, trustBadges, reviews, ba
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
+// Get or create session ID for guest carts
+const getSessionId = () => {
+  let sessionId = localStorage.getItem('tory_crown_session_id');
+  if (!sessionId) {
+    sessionId = 'sess_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('tory_crown_session_id', sessionId);
+  }
+  return sessionId;
+};
+
 const apiClient = axios.create({
   baseURL: API_BASE,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'X-Session-ID': getSessionId(),
   },
+});
+
+// Add a request interceptor to include the auth token
+apiClient.interceptors.request.use((config) => {
+  const authStorage = localStorage.getItem('tory-crown-auth');
+  if (authStorage) {
+    try {
+      const { state } = JSON.parse(authStorage);
+      if (state.token) {
+        config.headers.Authorization = `Bearer ${state.token}`;
+      }
+    } catch (e) {
+      console.error('Error parsing auth storage', e);
+    }
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
 });
 
 /* --- Homepage / CMS --- */
@@ -157,4 +186,43 @@ export const getProductReviews = async (slug) => {
     console.warn('Failed to fetch product reviews', error);
   }
   return reviews.slice(0, 3);
+};
+
+/* --- Auth --- */
+export const login = async (credentials) => {
+  try {
+    const res = await apiClient.post('/auth/login', credentials);
+    return res.data;
+  } catch (error) {
+    console.error('Login failed:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
+};
+
+export const register = async (userData) => {
+  try {
+    const res = await apiClient.post('/auth/register', userData);
+    return res.data;
+  } catch (error) {
+    console.error('Registration failed:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
+};
+
+export const logout = async () => {
+  try {
+    await apiClient.post('/auth/logout');
+  } catch (error) {
+    console.error('Logout failed:', error.response?.data || error);
+  }
+};
+
+export const getMe = async () => {
+  try {
+    const res = await apiClient.get('/auth/me');
+    return res.data;
+  } catch (error) {
+    console.error('Failed to fetch current user:', error.response?.data || error);
+    throw error.response?.data || error;
+  }
 };

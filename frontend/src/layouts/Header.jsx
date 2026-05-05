@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Heart, Search, Menu, X, User } from 'lucide-react';
 import { useCart, selectCartCount } from '../store/useCart';
 import { useWishlist } from '../store/useWishlist';
+import { useAuth } from '../store/useAuth';
 import './Header.css';
 
 export const Header = () => {
@@ -12,6 +13,7 @@ export const Header = () => {
   const cartCount = useCart(selectCartCount);
   const openCart = useCart(state => state.openCart);
   const { wishlistCount } = useWishlist();
+  const isAuthenticated = useAuth(state => state.isAuthenticated);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +61,7 @@ export const Header = () => {
             <button className="tori-header__action-btn" aria-label="Search">
               <Search size={20} strokeWidth={1.5} />
             </button>
-            <Link to="/login" className="tori-header__action-btn" aria-label="Account">
+            <Link to={isAuthenticated ? "/profile" : "/login"} className="tori-header__action-btn" aria-label="Account">
               <User size={20} strokeWidth={1.5} />
             </Link>
             <Link to="/wishlist" className="tori-header__action-btn" aria-label="Wishlist">

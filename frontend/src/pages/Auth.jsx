@@ -1,26 +1,82 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../ui/Button';
+import { login, register } from '../services/api';
+import { useAuth } from '../store/useAuth';
 import './Auth.css';
 
 export const Auth = () => {
   const [mode, setMode] = useState('login'); // 'login' or 'register'
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    phone: ''
+  });
 
-  const handleAuth = (e) => {
+  const navigate = useNavigate();
+  const { setAuth, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/profile');
+    }
+  }, [isAuthenticated, navigate]);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleAuth = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    setError(null);
+
+    try {
+      let response;
+      if (mode === 'login') {
+        response = await login({
+          email: formData.email,
+          password: formData.password
+        });
+      } else {
+        response = await register({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          password_confirmation: formData.password_confirmation,
+          phone: formData.phone
+        });
+      }
+
+      if (response.success) {
+        setAuth(response.data.user, response.data.token);
+        navigate('/profile');
+      }
+    } catch (err) {
+      setError(err.message || 'Authentication failed. Please check your credentials.');
+      if (err.errors) {
+        // Handle Laravel validation errors
+        const firstError = Object.values(err.errors)[0][0];
+        setError(firstError);
+      }
+    } finally {
       setIsLoading(false);
-      navigate('/profile');
-    }, 1000);
+    }
   };
 
   const handleSocialAuth = (provider) => {
+    // Social auth is still simulated or would redirect to backend
+    console.log(`Starting social auth with ${provider}`);
     setIsLoading(true);
-    // Simulate OAuth redirect
     setTimeout(() => {
       setIsLoading(false);
       navigate('/profile');
@@ -41,35 +97,90 @@ export const Auth = () => {
         <div className="auth-tabs">
           <button 
             className={`auth-tab ${mode === 'login' ? 'is-active' : ''}`}
-            onClick={() => setMode('login')}
+            onClick={() => {
+              setMode('login');
+              setError(null);
+            }}
           >
             Sign In
           </button>
           <button 
             className={`auth-tab ${mode === 'register' ? 'is-active' : ''}`}
-            onClick={() => setMode('register')}
+            onClick={() => {
+              setMode('register');
+              setError(null);
+            }}
           >
             Create Account
           </button>
         </div>
 
+        {error && <div className="auth-error">{error}</div>}
+
         <form className="auth-form" onSubmit={handleAuth}>
           {mode === 'register' && (
-            <div className="auth-form-group">
-              <label htmlFor="name">Full Name</label>
-              <input type="text" id="name" placeholder="Enter your full name" required />
-            </div>
+            <>
+              <div className="auth-form-group">
+                <label htmlFor="name">Full Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  placeholder="Enter your full name" 
+                  value={formData.name}
+                  onChange={handleChange}
+                  required 
+                />
+              </div>
+              <div className="auth-form-group">
+                <label htmlFor="phone">Phone Number</label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  placeholder="Enter your phone number" 
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
+              </div>
+            </>
           )}
           
           <div className="auth-form-group">
             <label htmlFor="email">Email Address</label>
-            <input type="email" id="email" placeholder="Enter your email" required />
+            <input 
+              type="email" 
+              id="email" 
+              placeholder="Enter your email" 
+              value={formData.email}
+              onChange={handleChange}
+              required 
+            />
           </div>
           
           <div className="auth-form-group">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" required />
+            <input 
+              type="password" 
+              id="password" 
+              placeholder="Enter your password" 
+              value={formData.password}
+              onChange={handleChange}
+              required 
+            />
           </div>
+
+          {mode === 'register' && (
+            <div className="auth-form-group">
+              <label htmlFor="password_confirmation">Confirm Password</label>
+              <input 
+                type="password" 
+                id="password_confirmation" 
+                placeholder="Confirm your password" 
+                value={formData.password_confirmation}
+                onChange={handleChange}
+                required 
+              />
+            </div>
+          )}
 
           {mode === 'login' && (
             <Link to="#" className="auth-forgot-password">Forgot password?</Link>

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Package, Heart, MapPin, Settings, LogOut, ChevronRight } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { useWishlist } from '../store/useWishlist';
+import { useAuth } from '../store/useAuth';
+import { logout as apiLogout } from '../services/api';
 import './Profile.css';
 
 const MOCK_USER = {
@@ -21,10 +23,23 @@ export const Profile = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const navigate = useNavigate();
   const { wishlistCount } = useWishlist();
+  const { user, logout: localLogout, isAuthenticated } = useAuth();
 
-  const handleLogout = () => {
-    // Mock logout behavior
-    navigate('/');
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
+
+  if (!isAuthenticated) return null;
+
+  const handleLogout = async () => {
+    try {
+      await apiLogout();
+    } finally {
+      localLogout();
+      navigate('/');
+    }
   };
 
   const renderContent = () => {
@@ -32,7 +47,7 @@ export const Profile = () => {
       case 'dashboard':
         return (
           <div className="profile-dashboard">
-            <h2 className="profile-section-title">Welcome back, Jane</h2>
+            <h2 className="profile-section-title">Welcome back, {user?.name || 'Valued Client'}</h2>
             <div className="dashboard-grid">
               <div className="dashboard-card" onClick={() => setActiveTab('orders')} style={{cursor: 'pointer'}}>
                 <Package size={32} className="dashboard-card__icon" strokeWidth={1.5} />
