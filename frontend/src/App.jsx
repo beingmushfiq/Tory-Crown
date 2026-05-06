@@ -1,4 +1,6 @@
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { MainLayout } from './layouts/MainLayout';
 import { Home } from './pages/Home';
 import { ProductDetails } from './pages/ProductDetails';
@@ -10,10 +12,24 @@ import { About } from './pages/About';
 import { Contact } from './pages/Contact';
 import { Wishlist } from './pages/Wishlist';
 import { InfoPage } from './pages/InfoPage';
+import { Loader } from './ui/Loader';
 
 function App() {
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
+  useEffect(() => {
+    // Hide loader after animation completes (approx 3s)
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <BrowserRouter>
+      <AnimatePresence mode="wait">
+        {isInitialLoading && <Loader key="splash-loader" />}
+      </AnimatePresence>
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
