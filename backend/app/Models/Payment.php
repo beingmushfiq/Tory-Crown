@@ -9,20 +9,18 @@ class Payment extends Model
 {
     protected $fillable = [
         'order_id', 'gateway', 'transaction_id', 'gateway_order_id',
-        'amount', 'status', 'gateway_response', 'payment_method_detail', 'verified_at',
+        'amount', 'status', 'gateway_response', 'payment_method_detail',
+        'verified_at'
     ];
 
     protected $casts = [
-        'amount'           => 'float',
+        'amount' => 'float',
         'gateway_response' => 'array',
-        'verified_at'      => 'datetime',
+        'verified_at' => 'datetime',
     ];
 
-    public function order(): BelongsTo { return $this->belongsTo(Order::class); }
-
-    public function markVerified(): void
+    public function order(): BelongsTo
     {
-        $this->update(['status' => 'completed', 'verified_at' => now()]);
-        $this->order->update(['payment_status' => 'paid']);
+        return $this->belongsTo(Order::class);
     }
 }

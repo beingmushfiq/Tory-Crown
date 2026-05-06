@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class ProductVariant extends Model
 {
     protected $fillable = [
         'product_id', 'sku', 'name', 'karat', 'size', 'color',
         'weight_grams', 'stone_type', 'stone_weight',
-        'making_charge', 'base_price_override',
+        'making_charge', 'base_price_override', 'tag_price',
         'stock_qty', 'reserved_qty', 'is_active',
     ];
 
@@ -71,7 +72,7 @@ class ProductVariant extends Model
         return (bool) static::query()
             ->where('id', $this->id)
             ->whereRaw('(stock_qty - reserved_qty) >= ?', [$qty])
-            ->update(['reserved_qty' => \DB::raw("reserved_qty + {$qty}")]);
+            ->update(['reserved_qty' => DB::raw("reserved_qty + {$qty}")]);
     }
 
     public function releaseStock(int $qty): void

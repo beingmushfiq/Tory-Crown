@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Product extends Model
 {
@@ -14,7 +15,7 @@ class Product extends Model
     protected $fillable = [
         'sku', 'name', 'slug', 'description', 'full_description',
         'category_id', 'collection_id', 'is_active', 'is_featured',
-        'gold_rate_override', 'sort_order', 'tags',
+        'gold_rate_override', 'tag_price', 'sort_order', 'tags',
         'meta_title', 'meta_description', 'og_image', 'tenant_id',
     ];
 
@@ -71,5 +72,27 @@ class Product extends Model
     public function getAverageRatingAttribute(): float
     {
         return round($this->reviews()->avg('rating') ?? 0, 1);
+    }
+
+    /** Bust cache when a product is saved or deleted */
+    protected static function booted(): void
+    {
+        static::saved(function ($p) {
+            Cache::forget("product:{$p->slug}");
+            Cache::forget('products_all');
+            Cache::forget('products_featured');
+            for ($i = 1; $i <= 10; $i++) {
+                Cache::forget("products_all_page_{$i}");
+            }
+        });
+
+        static::deleted(function ($p) {
+            Cache::forget("product:{$p->slug}");
+            Cache::forget('products_all');
+            Cache::forget('products_featured');
+            for ($i = 1; $i <= 10; $i++) {
+                Cache::forget("products_all_page_{$i}");
+            }
+        });
     }
 }

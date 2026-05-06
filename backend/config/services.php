@@ -35,4 +35,31 @@ return [
         ],
     ],
 
+    'bkash' => [
+        'app_key'    => env('BKASH_APP_KEY'),
+        'app_secret' => env('BKASH_APP_SECRET'),
+        'username'   => env('BKASH_USERNAME'),
+        'password'   => env('BKASH_PASSWORD'),
+        'base_url'   => env('BKASH_BASE_URL', 'https://tokenized.sandbox.bka.sh/v1.2.0-beta'),
+    ],
+
+    'steadfast' => [
+        'api_key'    => env('STEADFAST_API_KEY'),
+        'api_secret' => env('STEADFAST_API_SECRET'),
+    ],
+
+    'bulksmsbd' => [
+        'api_key'   => env('BULKSMSBD_API_KEY'),
+        'sender_id' => env('BULKSMSBD_SENDER_ID', 'TORYCROWN'),
+    ],
+
+    'facebook' => [
+        'pixel_id'     => env('FACEBOOK_PIXEL_ID'),
+        'access_token' => env('FACEBOOK_ACCESS_TOKEN'),
+    ],
+
+    'bdcouriers' => [
+        'api_key' => env('BDCOURIERS_API_KEY'),
+    ],
+
 ];

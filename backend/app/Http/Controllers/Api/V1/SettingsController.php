@@ -14,7 +14,7 @@ class SettingsController extends Controller
     public function public()
     {
         // Example: pulling settings from DB where group is 'public'
-        $settings = DB::table('settings')->where('group', 'public')->pluck('value', 'key');
+        $settings = DB::table('settings')->where('is_public', true)->pluck('value', 'key');
 
         // Fallback or defaults if DB table is empty
         if ($settings->isEmpty()) {

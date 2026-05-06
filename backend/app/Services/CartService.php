@@ -4,133 +4,135 @@ namespace App\Services;
 
 use App\Models\Cart;
 use App\Models\CartItem;
-use App\Models\Coupon;
 use App\Models\ProductVariant;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class CartService
 {
-    protected Cart $cart;
-
-    public function __construct()
+    /** 
+     * Get or create a cart for the current user or session.
+     */
+    public function getCart(?string $sessionId = null): Cart
     {
-        $this->cart = $this->resolveCart();
-    }
-
-    /** Get or create a cart for the current user or session. */
-    protected function resolveCart(): Cart
-    {
-        $userId    = Auth::id();
-        $sessionId = session()->getId();
+        $userId = Auth::id();
+        $sessionId = $sessionId ?? session()->getId();
 
         if ($userId) {
             $cart = Cart::firstOrCreate(['user_id' => $userId]);
-            // Merge guest cart if exists
-            $guestCart = Cart::where('session_id', $sessionId)->where('user_id', null)->first();
-            if ($guestCart) {
-                $this->mergeCart($guestCart, $cart);
+            
+            // Merge guest cart if sessionId provided and different from user's primary cart
+            $guestCart = Cart::where('session_id', $sessionId)
+                ->where('user_id', null)
+                ->first();
+                
+            if ($guestCart && $guestCart->id !== $cart->id) {
+                $this->mergeCarts($guestCart, $cart);
             }
+            
             return $cart;
         }
 
         return Cart::firstOrCreate(['session_id' => $sessionId]);
     }
 
-    public function get(): Cart
+    /**
+     * Add item to cart
+     */
+    public function addItem(?string $sessionId, ProductVariant $variant, int $qty = 1): Cart
     {
-        return $this->cart->load('items.product', 'items.variant');
+        $cart = $this->getCart($sessionId);
+
+        DB::transaction(function () use ($cart, $variant, $qty) {
+            /** @var CartItem|null $item */
+            $item = $cart->items()
+                ->where('product_id', $variant->product_id)
+                ->where('variant_id', $variant->id)
+                ->first();
+
+            if ($item) {
+                $item->increment('qty', $qty);
+                $item->update(['price_snapshot' => $variant->computed_price]);
+            } else {
+                $cart->items()->create([
+                    'product_id'     => $variant->product_id,
+                    'variant_id'     => $variant->id,
+                    'qty'            => $qty,
+                    'price_snapshot' => $variant->computed_price,
+                ]);
+            }
+        });
+
+        return $cart->fresh();
     }
 
-    public function add(int $productId, ?int $variantId, int $qty = 1): CartItem
+    /**
+     * Update item quantity
+     */
+    public function updateItemQty(?string $sessionId, int $itemId, int $qty): Cart
     {
-        $variant = $variantId ? ProductVariant::findOrFail($variantId) : null;
-        $price   = $variant?->computed_price ?? 0;
+        $cart = $this->getCart($sessionId);
+        $item = $cart->items()->findOrFail($itemId);
 
-        $item = $this->cart->items()
-            ->where('product_id', $productId)
-            ->where('variant_id', $variantId)
-            ->first();
-
-        if ($item) {
-            $item->increment('qty', $qty);
-            $item->update(['price_snapshot' => $price]);
-        } else {
-            $item = $this->cart->items()->create([
-                'product_id'     => $productId,
-                'variant_id'     => $variantId,
-                'qty'            => $qty,
-                'price_snapshot' => $price,
-            ]);
-        }
-
-        return $item->fresh();
-    }
-
-    public function updateQty(int $itemId, int $qty): bool
-    {
-        $item = $this->cart->items()->findOrFail($itemId);
         if ($qty <= 0) {
             $item->delete();
-            return true;
-        }
-        return (bool) $item->update(['qty' => $qty]);
-    }
-
-    public function remove(int $itemId): bool
-    {
-        return (bool) $this->cart->items()->findOrFail($itemId)->delete();
-    }
-
-    public function applyCoupon(string $code): array
-    {
-        $coupon = Coupon::where('code', strtoupper($code))->where('is_active', true)->first();
-
-        if (! $coupon) {
-            return ['success' => false, 'error' => 'INVALID_COUPON'];
+        } else {
+            $item->update(['qty' => $qty]);
         }
 
-        $subtotal = $this->subtotal();
-
-        if (! $coupon->isValid($subtotal)) {
-            return ['success' => false, 'error' => 'COUPON_NOT_APPLICABLE'];
-        }
-
-        $discount = $coupon->calculateDiscount($subtotal);
-        $this->cart->update([
-            'coupon_code'     => $coupon->code,
-            'coupon_discount' => $discount,
-        ]);
-
-        return ['success' => true, 'discount' => $discount, 'coupon' => $coupon];
+        return $cart->fresh();
     }
 
-    public function removeCoupon(): void
+    /**
+     * Remove item from cart
+     */
+    public function removeItem(?string $sessionId, int $itemId): Cart
     {
-        $this->cart->update(['coupon_code' => null, 'coupon_discount' => 0]);
+        $cart = $this->getCart($sessionId);
+        $cart->items()->where('id', $itemId)->delete();
+
+        return $cart->fresh();
     }
 
-    public function subtotal(): float
+    /**
+     * Clear the cart
+     */
+    public function clear(?string $sessionId = null): void
     {
-        return $this->cart->items->sum(fn($i) => $i->price_snapshot * $i->qty);
+        $cart = $this->getCart($sessionId);
+        $cart->items()->delete();
+        $cart->update(['coupon_code' => null, 'coupon_discount' => 0]);
     }
 
-    public function total(): float
+    /**
+     * Calculate subtotal
+     */
+    public function subtotal(Cart $cart): float
     {
-        return max(0, $this->subtotal() - ($this->cart->coupon_discount ?? 0));
+        return $cart->items->sum(fn(CartItem $i) => $i->price_snapshot * $i->qty);
     }
 
-    protected function mergeCart(Cart $source, Cart $target): void
+    /**
+     * Merge source cart into target cart
+     */
+    protected function mergeCarts(Cart $source, Cart $target): void
     {
-        foreach ($source->items as $item) {
-            $this->add($item->product_id, $item->variant_id, $item->qty);
-        }
-        $source->delete();
-    }
+        DB::transaction(function () use ($source, $target) {
+            /** @var CartItem $item */
+            foreach ($source->items as $item) {
+                /** @var CartItem|null $existing */
+                $existing = $target->items()
+                    ->where('product_id', $item->product_id)
+                    ->where('variant_id', $item->variant_id)
+                    ->first();
 
-    public function clear(): void
-    {
-        $this->cart->items()->delete();
-        $this->cart->update(['coupon_code' => null, 'coupon_discount' => 0]);
+                if ($existing) {
+                    $existing->increment('qty', $item->qty);
+                } else {
+                    $item->update(['cart_id' => $target->id]);
+                }
+            }
+            $source->delete();
+        });
     }
 }

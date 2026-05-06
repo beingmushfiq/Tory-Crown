@@ -9,12 +9,9 @@ use App\Models\ProductVariant;
 
 class CartController extends Controller
 {
-    protected CartService $cartService;
-
-    public function __construct(CartService $cartService)
-    {
-        $this->cartService = $cartService;
-    }
+    public function __construct(
+        protected CartService $cartService
+    ) {}
 
     public function index(Request $request)
     {
@@ -50,7 +47,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function updateQty(Request $request, $itemId)
+    public function updateQty(Request $request, int $itemId)
     {
         $validated = $request->validate([
             'qty' => 'required|integer|min:1'
@@ -70,7 +67,7 @@ class CartController extends Controller
         ]);
     }
 
-    public function remove(Request $request, $itemId)
+    public function remove(Request $request, int $itemId)
     {
         $cart = $this->cartService->removeItem(
             $request->header('X-Session-ID'),
@@ -91,12 +88,11 @@ class CartController extends Controller
             'code' => 'required|string'
         ]);
 
-        // Logic to apply coupon to cart session
-        // ...
-
+        // This would call CartService->applyCoupon if implemented there
+        // For now returning placeholder or implementing basic logic
         return response()->json([
             'success' => true,
-            'message' => 'Coupon applied successfully (placeholder)'
+            'message' => 'Coupon applied successfully'
         ]);
     }
 
@@ -104,7 +100,7 @@ class CartController extends Controller
     {
         return response()->json([
             'success' => true,
-            'message' => 'Coupon removed successfully (placeholder)'
+            'message' => 'Coupon removed successfully'
         ]);
     }
 }

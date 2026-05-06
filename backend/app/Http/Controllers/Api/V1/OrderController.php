@@ -8,6 +8,7 @@ use App\Services\CartService;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -20,7 +21,7 @@ class OrderController extends Controller
     /** GET /api/v1/orders — authenticated customer's orders */
     public function index(Request $request): JsonResponse
     {
-        $orders = Order::where('user_id', auth()->id())
+        $orders = Order::where('user_id', Auth::id())
             ->with(['items', 'shipment'])
             ->latest()
             ->paginate(10);
@@ -48,13 +49,13 @@ class OrderController extends Controller
             ], 422);
         }
 
-        $cart = $this->cartService->get();
+        $cart = $this->cartService->getCart($request->header('X-Session-ID'));
         if ($cart->items->isEmpty()) {
             return response()->json(['success' => false, 'error' => 'CART_EMPTY'], 400);
         }
 
         try {
-            $order = $this->orderService->place($request->validated(), $cart);
+            $order = $this->orderService->place($validator->validated(), $cart);
             return response()->json(['success' => true, 'data' => $order], 201);
         } catch (\RuntimeException $e) {
             return response()->json(['success' => false, 'error' => $e->getMessage()], 409);
@@ -65,7 +66,7 @@ class OrderController extends Controller
     public function show(int $id): JsonResponse
     {
         $order = Order::where('id', $id)
-            ->where('user_id', auth()->id())
+            ->where('user_id', Auth::id())
             ->with(['items', 'payments', 'shipment', 'timeline'])
             ->firstOrFail();
 
@@ -91,7 +92,7 @@ class OrderController extends Controller
     /** POST /api/v1/orders/{id}/cancel */
     public function cancel(int $id, Request $request): JsonResponse
     {
-        $order = Order::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+        $order = Order::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         try {
             $this->orderService->cancel($order, $request->input('reason', ''));

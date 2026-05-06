@@ -16,9 +16,14 @@ use App\Http\Controllers\Api\V1\PaymentController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\EventController;
 use App\Http\Controllers\Api\V1\SettingsController;
+use App\Http\Controllers\Api\V1\CampaignController;
 
 // ─── Public Routes ───────────────────────────────────────────────
 Route::prefix('v1')->group(function () {
+
+    // Campaigns (Offers, Deals)
+    Route::get('/campaigns', [CampaignController::class, 'index']);
+    Route::get('/campaigns/{type}', [CampaignController::class, 'show']);
 
     // CMS — dynamic page layout
     Route::get('/pages/{slug}', [CmsController::class, 'show']);
