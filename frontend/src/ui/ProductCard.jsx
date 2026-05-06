@@ -73,7 +73,9 @@ export const ProductCard = ({ product }) => {
 
       <div className="product-card__info">
         <div className="product-card__meta">
-          <span className="product-card__collection">{product.collection}</span>
+          <span className="product-card__collection">
+            {typeof product.collection === 'string' ? product.collection : (product.collection?.name || product.collection_name || '')}
+          </span>
         </div>
         <h3 className="product-card__title">
           <Link to={`/product/${product.slug}`}>{product.name}</Link>

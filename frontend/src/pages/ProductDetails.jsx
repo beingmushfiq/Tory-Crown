@@ -70,10 +70,16 @@ export const ProductDetails = () => {
     return <Loader />;
   }
 
+  const images = product.images || [];
+  const specs = product.specs || {};
+  const variants = product.variants || [];
+  const sizes = product.sizes || [];
+
   const wished = isInWishlist(product.id);
-  const currentPrice = product.price + (selectedVariant?.priceModifier || 0);
+  const currentPrice = (product.price || 0) + (selectedVariant?.priceModifier || 0);
 
   const formatPrice = (price) => {
+    if (isNaN(price)) return 'Price on Request';
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'BDT',
@@ -113,7 +119,7 @@ export const ProductDetails = () => {
             <AnimatePresence mode="wait">
               <motion.img 
                 key={activeImage}
-                src={product.images[activeImage]} 
+                src={typeof images[activeImage] === 'string' ? images[activeImage] : (images[activeImage]?.url || 'https://via.placeholder.com/800')} 
                 alt={product.name}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -129,13 +135,13 @@ export const ProductDetails = () => {
             </button>
           </div>
           <div className="product-gallery__thumbs">
-            {product.images.map((img, idx) => (
+            {images.map((img, idx) => (
               <button 
                 key={idx} 
                 className={`thumb-btn ${activeImage === idx ? 'is-active' : ''}`}
                 onClick={() => setActiveImage(idx)}
               >
-                <img src={img} alt={`Thumbnail ${idx + 1}`} />
+                <img src={typeof img === 'string' ? img : (img?.url || 'https://via.placeholder.com/100')} alt={`Thumbnail ${idx + 1}`} />
               </button>
             ))}
           </div>
@@ -157,11 +163,11 @@ export const ProductDetails = () => {
           <div className="product-divider" />
 
           {/* Variants */}
-          {product.variants && product.variants.length > 0 && (
+          {variants.length > 0 && (
             <div className="product-variants">
               <span className="variant-label">Material: <strong>{selectedVariant?.name}</strong></span>
               <div className="variant-options">
-                {product.variants.map(variant => (
+                {variants.map(variant => (
                   <button
                     key={variant.id}
                     className={`variant-btn ${selectedVariant?.id === variant.id ? 'is-active' : ''}`}
@@ -175,14 +181,14 @@ export const ProductDetails = () => {
           )}
 
           {/* Sizes */}
-          {product.sizes && product.sizes.length > 0 && (
+          {sizes.length > 0 && (
             <div className="product-sizes">
               <div className="size-header">
                 <span className="variant-label">Size</span>
                 <button className="size-guide-btn">Size Guide</button>
               </div>
               <div className="size-options">
-                {product.sizes.map(size => (
+                {sizes.map(size => (
                   <button
                     key={size}
                     className={`size-btn ${selectedSize === size ? 'is-active' : ''}`}
@@ -277,7 +283,7 @@ export const ProductDetails = () => {
                 className="tab-pane"
               >
                 <ul className="specs-list">
-                  {Object.entries(product.specs).map(([key, value]) => (
+                  {Object.entries(specs).map(([key, value]) => (
                     <li key={key}>
                       <span className="spec-key">{key}</span>
                       <span className="spec-value">{value}</span>

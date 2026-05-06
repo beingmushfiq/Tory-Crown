@@ -112,7 +112,7 @@ class DatabaseSeeder extends Seeder
                     'category_id'   => $category->id,
                     'collection_id' => $collection->id,
                     'is_active'     => true,
-                    'is_featured'   => ($index === 0),
+                    'is_featured'   => ($index < 3),
                 ]);
 
                 ProductVariant::create([

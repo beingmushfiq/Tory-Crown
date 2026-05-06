@@ -24,6 +24,15 @@ class ProductVariant extends Model
         'is_active'           => 'boolean',
     ];
 
+    protected $appends = ['price_modifier'];
+
+    public function getPriceModifierAttribute(): float
+    {
+        $productPrice = $this->product->price ?? 0;
+        if ($productPrice === 0) return 0;
+        return $this->computed_price - $productPrice;
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
