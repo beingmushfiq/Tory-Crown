@@ -76,7 +76,7 @@ export const Home = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1000" alt="Tori Crown High Jewelry" className="img-main" onError={(e) => { e.target.src = 'https://via.placeholder.com/1000x1200/0A1128/C5A059?text=Tori+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=1200" alt="Tori Crown High Jewelry" className="img-main" onError={(e) => { e.target.src = 'https://via.placeholder.com/1000x1200/0A1128/C5A059?text=Tori+Crown'; }} />
             </motion.div>
             
             <motion.div 
@@ -98,7 +98,7 @@ export const Home = () => {
                 } 
               }}
             >
-              <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?q=80&w=600" alt="Jewelry Detail" className="img-sub" onError={(e) => { e.target.style.display = 'none'; }} />
+              <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=600" alt="Jewelry Detail" className="img-sub" onError={(e) => { e.target.style.display = 'none'; }} />
             </motion.div>
           </div>
         </div>
@@ -199,7 +199,7 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?q=80&w=1200" alt="Royal Kundan" className="promo-banner__img" style={{objectPosition: 'top'}} loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?auto=format&fit=crop&q=80&w=1200" alt="Royal Kundan" className="promo-banner__img" style={{objectPosition: 'top'}} loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">Heritage Collection</span>
@@ -227,7 +227,7 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?q=80&w=1200" alt="Minimalist Gold" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=1200" alt="Minimalist Gold" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">Daily Elegance</span>
@@ -255,7 +255,7 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=1200" alt="Eid Exclusive" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=1200" alt="Eid Exclusive" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">Festive Special</span>
@@ -283,7 +283,7 @@ export const Home = () => {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1200" alt="Bridal Collection" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
+              <img src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&q=80&w=1200" alt="Bridal Collection" className="promo-banner__img" loading="lazy" onError={(e) => { e.target.src = 'https://via.placeholder.com/1200x800/0A1128/C5A059?text=Tori+Crown'; }} />
               <div className="promo-banner__overlay" />
               <div className="promo-banner__content">
                 <span className="promo-banner__subtitle">The 2026 Edition</span>

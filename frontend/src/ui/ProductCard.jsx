@@ -29,6 +29,8 @@ export const ProductCard = ({ product }) => {
         <Link to={`/product/${product.slug}`} className="product-card__link">
           <img 
             src={
+              product.primary_image_url ||
+              product.image_url ||
               (typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || 
               (typeof product.primary_image?.[0] === 'string' ? product.primary_image[0] : product.primary_image?.[0]?.url) ||
               product.primary_image?.url ||

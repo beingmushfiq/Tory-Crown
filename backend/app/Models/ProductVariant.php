@@ -28,7 +28,15 @@ class ProductVariant extends Model
 
     public function getPriceModifierAttribute(): float
     {
+        $wasLoaded = $this->relationLoaded('product');
         $productPrice = $this->product->price ?? 0;
+        
+        // Prevent infinite recursion in toArray() by not holding onto the product relation 
+        // if it wasn't explicitly eager loaded.
+        if (!$wasLoaded) {
+            $this->unsetRelation('product');
+        }
+
         if ($productPrice === 0) return 0;
         return $this->computed_price - $productPrice;
     }

@@ -13,6 +13,14 @@ class ProductImage extends Model
         'is_primary' => 'boolean',
     ];
 
+    public function getUrlAttribute(?string $value): string
+    {
+        if (str_starts_with($value, 'http')) {
+            return $value;
+        }
+        return asset('storage/' . $value);
+    }
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);

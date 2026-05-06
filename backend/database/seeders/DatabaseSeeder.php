@@ -57,44 +57,93 @@ class DatabaseSeeder extends Seeder
         // 4. Products Data
         $productsData = [
             'Celestial Rings' => [
-                ['Celestial Solitaire Ring', 'celestial-solitaire-ring', '18K white gold with 1.2ct diamond.', 'https://images.unsplash.com/photo-1605100804763-247f67b3557e'],
-                ['Lunar Eclipse Band', 'lunar-eclipse-band', 'Mystical black diamond eternity band.', 'https://images.unsplash.com/photo-1603561591411-07134e71a2a9'],
-                ['Starlight Pavé Ring', 'starlight-pave-ring', 'Micro-pavé diamonds on a thin gold band.', 'https://images.unsplash.com/photo-1544451240-8451121d5964'],
-                ['Nova Diamond Ring', 'nova-diamond-ring', 'Explosion of brilliance with center emerald cut.', 'https://images.unsplash.com/photo-1598560912015-6213717278d2'],
-                ['Galaxy Twist Ring', 'galaxy-twist-ring', 'Intertwined bands of rose and white gold.', 'https://images.unsplash.com/photo-1617038220319-276d3cfab638'],
-                ['Nebula Opal Ring', 'nebula-opal-ring', 'Iridescent opal surrounded by cosmic diamonds.', 'https://images.unsplash.com/photo-1588444837495-c6cfaf504670'],
+                ['Celestial Solitaire Ring', 'celestial-solitaire-ring', '18K white gold with 1.2ct diamond.'],
+                ['Lunar Eclipse Band', 'lunar-eclipse-band', 'Mystical black diamond eternity band.'],
+                ['Starlight Pavé Ring', 'starlight-pave-ring', 'Micro-pavé diamonds on a thin gold band.'],
+                ['Nova Diamond Ring', 'nova-diamond-ring', 'Explosion of brilliance with center emerald cut.'],
+                ['Galaxy Twist Ring', 'galaxy-twist-ring', 'Intertwined bands of rose and white gold.'],
+                ['Nebula Opal Ring', 'nebula-opal-ring', 'Iridescent opal surrounded by cosmic diamonds.'],
             ],
             'Majestic Necklaces' => [
-                ['Royal Majesty Choker', 'royal-majesty-choker', 'Fit for royalty, featuring rubies and pearls.', 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f'],
-                ['Imperial Pearl Necklace', 'imperial-pearl-necklace', 'Hand-selected South Sea pearls.', 'https://images.unsplash.com/photo-1515562141589-67f0d569b610'],
-                ['Empress Emerald Pendant', 'empress-emerald-pendant', 'Vibrant Colombian emerald in 22K gold.', 'https://images.unsplash.com/photo-1601121141461-9d6647bca1ed'],
-                ['Sovereign Gold Chain', 'sovereign-gold-chain', 'Heavy 24K solid gold braided chain.', 'https://images.unsplash.com/photo-1611085583191-a3b1a308c021'],
-                ['Regency Diamond Collier', 'regency-diamond-collier', 'Sophisticated cascade of brilliant diamonds.', 'https://images.unsplash.com/photo-1624479355528-25000ca04f04'],
-                ['Monarch Sapphire Necklace', 'monarch-sapphire-necklace', 'Deep blue sapphire surrounded by diamonds.', 'https://images.unsplash.com/photo-1599643477877-537ef527848f'],
+                ['Royal Majesty Choker', 'royal-majesty-choker', 'Fit for royalty, featuring rubies and pearls.'],
+                ['Imperial Pearl Necklace', 'imperial-pearl-necklace', 'Hand-selected South Sea pearls.'],
+                ['Empress Emerald Pendant', 'empress-emerald-pendant', 'Vibrant Colombian emerald in 22K gold.'],
+                ['Sovereign Gold Chain', 'sovereign-gold-chain', 'Heavy 24K solid gold braided chain.'],
+                ['Regency Diamond Collier', 'regency-diamond-collier', 'Sophisticated cascade of brilliant diamonds.'],
+                ['Monarch Sapphire Necklace', 'monarch-sapphire-necklace', 'Deep blue sapphire surrounded by diamonds.'],
             ],
             'Radiant Earrings' => [
-                ['Solar Flare Studs', 'solar-flare-studs', 'Brilliant yellow diamond studs.', 'https://images.unsplash.com/photo-1630019852942-f89202989a59'],
-                ['Aurora Drop Earrings', 'aurora-drop-earrings', 'Pavé set diamonds inspired by Northern Lights.', 'https://images.unsplash.com/photo-1598560912015-6213717278d2'],
-                ['Prism Halo Earrings', 'prism-halo-earrings', 'Geometric design with a central diamond halo.', 'https://images.unsplash.com/photo-1617038220319-276d3cfab638'],
-                ['Crystal Cascade Drops', 'crystal-cascade-drops', 'Long flowing drops of clear crystals.', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908'],
-                ['Luminous Hoop Earrings', 'luminous-hoop-earrings', 'Classic 18K gold hoops with internal diamonds.', 'https://images.unsplash.com/photo-1589128777073-263566ae5e4d'],
-                ['Vivid Ruby Studs', 'vivid-ruby-studs', 'Intense red rubies in a crown setting.', 'https://images.unsplash.com/photo-1626784215021-2e39ccf971cd'],
+                ['Solar Flare Studs', 'solar-flare-studs', 'Brilliant yellow diamond studs.'],
+                ['Aurora Drop Earrings', 'aurora-drop-earrings', 'Pavé set diamonds inspired by Northern Lights.'],
+                ['Prism Halo Earrings', 'prism-halo-earrings', 'Geometric design with a central diamond halo.'],
+                ['Crystal Cascade Drops', 'crystal-cascade-drops', 'Long flowing drops of clear crystals.'],
+                ['Luminous Hoop Earrings', 'luminous-hoop-earrings', 'Classic 18K gold hoops with internal diamonds.'],
+                ['Vivid Ruby Studs', 'vivid-ruby-studs', 'Intense red rubies in a crown setting.'],
             ],
             'Infinite Bracelets' => [
-                ['Eternal Link Bracelet', 'eternal-link-bracelet', 'Solid gold links that never go out of style.', 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a'],
-                ['Infinity Knot Bangle', 'infinity-knot-bangle', 'Elegant gold bangle with a central infinity knot.', 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0'],
-                ['Serenity Cuff', 'serenity-cuff', 'Minimalist brushed gold cuff for daily wear.', 'https://images.unsplash.com/photo-1515562141589-67f0d569b610'],
-                ['Harmonious Tennis Bracelet', 'harmonious-tennis-bracelet', 'Continuous line of diamonds in 18K white gold.', 'https://images.unsplash.com/photo-1611591437248-2651475c7423'],
-                ['Endless Charm Bracelet', 'endless-charm-bracelet', 'Add your own story with unique gold charms.', 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a'],
-                ['Boundless Gold Bangle', 'boundless-gold-bangle', 'Hammered gold finish for a textured look.', 'https://images.unsplash.com/photo-1515562141207-7a8efd3f84f3'],
+                ['Eternal Link Bracelet', 'eternal-link-bracelet', 'Solid gold links that never go out of style.'],
+                ['Infinity Knot Bangle', 'infinity-knot-bangle', 'Elegant gold bangle with a central infinity knot.'],
+                ['Serenity Cuff', 'serenity-cuff', 'Minimalist brushed gold cuff for daily wear.'],
+                ['Harmonious Tennis Bracelet', 'harmonious-tennis-bracelet', 'Continuous line of diamonds in 18K white gold.'],
+                ['Endless Charm Bracelet', 'endless-charm-bracelet', 'Add your own story with unique gold charms.'],
+                ['Boundless Gold Bangle', 'boundless-gold-bangle', 'Hammered gold finish for a textured look.'],
             ],
             'Timeless Pendants' => [
-                ['Legacy Heart Pendant', 'legacy-heart-pendant', 'Engravable gold heart with a tiny diamond.', 'https://images.unsplash.com/photo-1515562141207-7a8efd3f84f3'],
-                ['Ancestral Locket', 'ancestral-locket', 'Vintage style locket in antique gold finish.', 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf'],
-                ['Everlasting Cross Pendant', 'everlasting-cross-pendant', 'Diamond encrusted cross on a delicate chain.', 'https://images.unsplash.com/photo-1611085583191-a3b1a308c021'],
-                ['Historic Medallion', 'historic-medallion', 'Embossed gold medallion with historical motifs.', 'https://images.unsplash.com/photo-1599643477877-537ef527848f'],
-                ['Classic Teardrop Pendant', 'classic-teardrop-pendant', 'A single pear-shaped sapphire on white gold.', 'https://images.unsplash.com/photo-1601121141461-9d6647bca1ed'],
-                ['Vintage Key Charm', 'vintage-key-charm', 'Ornate key design in 18K yellow gold.', 'https://images.unsplash.com/photo-1515562141207-7a8efd3f84f3'],
+                ['Legacy Heart Pendant', 'legacy-heart-pendant', 'Engravable gold heart with a tiny diamond.'],
+                ['Ancestral Locket', 'ancestral-locket', 'Vintage style locket in antique gold finish.'],
+                ['Everlasting Cross Pendant', 'everlasting-cross-pendant', 'Diamond encrusted cross on a delicate chain.'],
+                ['Historic Medallion', 'historic-medallion', 'Embossed gold medallion with historical motifs.'],
+                ['Classic Teardrop Pendant', 'classic-teardrop-pendant', 'A single pear-shaped sapphire on white gold.'],
+                ['Vintage Key Charm', 'vintage-key-charm', 'Ornate key design in 18K yellow gold.'],
+            ],
+        ];
+
+        // Specific, exact Unsplash images for the exact products
+        $specificImages = [
+            'starlight-pave-ring' => 'https://images.unsplash.com/photo-1605100804763-247f67b3557e',
+            'nova-diamond-ring' => 'https://images.unsplash.com/photo-1603561591411-07134e71a2a9',
+            'nebula-opal-ring' => 'https://images.unsplash.com/photo-1544451240-8451121d5964',
+            
+            'imperial-pearl-necklace' => 'https://images.unsplash.com/photo-1599643477877-537ef527848f',
+            'sovereign-gold-chain' => 'https://images.unsplash.com/photo-1626784215021-2e39ccf971cd',
+            'regency-diamond-collier' => 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f',
+            'monarch-sapphire-necklace' => 'https://images.unsplash.com/photo-1601121141461-9d6647bca1ed',
+            
+            'aurora-drop-earrings' => 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908',
+            
+            'serenity-cuff' => 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a',
+            'harmonious-tennis-bracelet' => 'https://images.unsplash.com/photo-1589128777073-263566ae5e4d',
+            'boundless-gold-bangle' => 'https://images.unsplash.com/photo-1573408301185-9146fe634ad0',
+            
+            'legacy-heart-pendant' => 'https://images.unsplash.com/photo-1611085583191-a3b181a88401',
+            'ancestral-locket' => 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a',
+            'everlasting-cross-pendant' => 'https://images.unsplash.com/photo-1588444839138-eb6a55ae963a',
+            'historic-medallion' => 'https://images.unsplash.com/photo-1535632787350-4e68ef0ac584',
+            'vintage-key-charm' => 'https://images.unsplash.com/photo-1598560912015-6213717278d2',
+        ];
+
+        // Generic collection fallbacks
+        $collectionImages = [
+            'Celestial Rings' => [
+                'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1544451240-8451121d5964?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Majestic Necklaces' => [
+                'https://images.unsplash.com/photo-1512163143273-bde0e3cc7407?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Radiant Earrings' => [
+                'https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1596944924616-7b38e7cfac36?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Infinite Bracelets' => [
+                'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Timeless Pendants' => [
+                'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1598560912015-6213717278d2?auto=format&fit=crop&q=80&w=800',
             ],
         ];
 
@@ -102,6 +151,7 @@ class DatabaseSeeder extends Seeder
             $collection = $collections[$colName];
             $categoryKey = explode(' ', $colName)[1]; // e.g. Rings
             $category = $categories[$categoryKey];
+            $images = $collectionImages[$colName] ?? [];
 
             foreach ($items as $index => $item) {
                 $product = Product::create([
@@ -125,11 +175,30 @@ class DatabaseSeeder extends Seeder
                     'stock_qty'     => rand(1, 15),
                 ]);
 
-                ProductImage::create([
-                    'product_id' => $product->id,
-                    'url'        => $item[3] . '?q=80&w=800&auto=format&fit=crop',
-                    'is_primary' => true,
-                ]);
+                // Add images for the product
+                $prodSlug = $item[1];
+                $prodImages = [];
+
+                // Check if we have a specific exact image for this product
+                if (isset($specificImages[$prodSlug])) {
+                    $prodImages[] = $specificImages[$prodSlug] . '?auto=format&fit=crop&q=80&w=800';
+                    // Fill remaining 2 images from collection generic images
+                    $remaining = array_slice($images, 0, 2);
+                    $prodImages = array_merge($prodImages, $remaining);
+                } else {
+                    $prodImages = array_slice($images, $index, 3); // Take 3 images starting from index
+                }
+
+                if (empty($prodImages)) $prodImages = [$images[0] ?? 'https://via.placeholder.com/800'];
+
+                foreach ($prodImages as $imgIdx => $imgUrl) {
+                    ProductImage::create([
+                        'product_id' => $product->id,
+                        'url'        => $imgUrl,
+                        'is_primary' => ($imgIdx === 0),
+                        'sort_order' => $imgIdx,
+                    ]);
+                }
             }
         }
 

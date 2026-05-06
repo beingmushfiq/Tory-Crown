@@ -19,21 +19,12 @@ class GoldRate extends Model
      * Get latest active gold rate for a given karat.
      * Result is cached in Redis for 60 minutes.
      */
-    public static function latestFor(string $karat): ?self
+    public static function latestFor(string $karat)
     {
-        return \Cache::remember("gold_rate:{$karat}", 3600, function () use ($karat) {
-            return static::where('karat', $karat)
-                ->where('is_active', true)
-                ->orderByDesc('effective_date')
-                ->first();
-        });
+        return static::where('karat', $karat)
+            ->where('is_active', true)
+            ->orderByDesc('effective_date')
+            ->first();
     }
 
-    /** Bust cache when a new rate is saved */
-    protected static function booted(): void
-    {
-        static::saved(function (self $rate) {
-            \Cache::forget("gold_rate:{$rate->karat}");
-        });
-    }
 }

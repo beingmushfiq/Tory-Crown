@@ -25,7 +25,23 @@ class Product extends Model
         'tags'        => 'array',
     ];
 
-    protected $appends = ['price', 'rating', 'reviews', 'images', 'specs', 'sizes', 'variants', 'category_name', 'collection_name', 'primary_image'];
+    protected $appends = ['price', 'rating', 'reviews', 'images', 'specs', 'sizes', 'variants', 'category_name', 'collection_name', 'primary_image', 'image_url', 'primary_image_url'];
+
+    public function getImageUrlAttribute(): string
+    {
+        $imgs = $this->getImagesAttribute();
+        return $imgs[0] ?? 'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown';
+    }
+
+    public function getPrimaryImageUrlAttribute(): string
+    {
+        // Find the primary image URL from the resolved images relation
+        $primary = $this->images()->where('is_primary', true)->orderBy('sort_order')->first();
+        if ($primary) {
+            return $primary->url; // goes through accessor
+        }
+        return $this->getImageUrlAttribute();
+    }
 
     public function getPrimaryImageAttribute()
     {
@@ -118,7 +134,8 @@ class Product extends Model
 
     public function getImagesAttribute(): array
     {
-        $urls = $this->images()->orderBy('sort_order')->pluck('url')->toArray();
+        // Use ->get() then map through the accessor so getUrlAttribute is applied
+        $urls = $this->images()->orderBy('sort_order')->get()->map(fn($img) => $img->url)->toArray();
         return count($urls) > 0 ? $urls : ['https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown'];
     }
 
