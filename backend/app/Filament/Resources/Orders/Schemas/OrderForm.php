@@ -19,11 +19,13 @@ class OrderForm
             ->components([
                 Grid::make(3)->schema([
                     Section::make('Order Information')->schema([
-                        TextInput::make('order_number')->disabled(),
+                        TextInput::make('order_number')
+                            ->placeholder('TC-' . date('Y') . '-XXXXX')
+                            ->helperText('Leave blank to auto-generate'),
                         Select::make('user_id')
                             ->relationship('user', 'name')
                             ->searchable()
-                            ->disabled(),
+                            ->required(),
                         Select::make('status')
                             ->options([
                                 'pending' => 'Pending',
@@ -76,9 +78,7 @@ class OrderForm
                                 TextInput::make('total_price')->disabled()->numeric(),
                             ])
                         ])
-                        ->disableItemCreation()
-                        ->disableItemDeletion()
-                        ->disableItemMovement(),
+                        ->defaultItems(1),
                 ]),
 
                 Section::make('Timeline & Notes')->schema([
