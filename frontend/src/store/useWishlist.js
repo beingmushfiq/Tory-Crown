@@ -4,7 +4,12 @@ const WISHLIST_KEY = 'Tori Crown_wishlist';
 
 const getStoredWishlist = () => {
   try {
-    return JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
+    const data = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
+    // Normalize data for consistency (handle legacy items with single 'image' property)
+    return data.map(item => ({
+      ...item,
+      images: Array.isArray(item.images) ? item.images : (item.image ? [item.image] : [])
+    }));
   } catch { return []; }
 };
 
@@ -30,12 +35,11 @@ export const useWishlist = () => {
     if (isWished) {
       wishlistState = wishlistState.filter(item => item.id !== product.id);
     } else {
+      // Store relevant product data, ensuring images is an array as expected by ProductCard
       wishlistState.push({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images[0],
-        slug: product.slug,
+        ...product,
+        // Ensure images is an array even if it was just a single string in some older data
+        images: Array.isArray(product.images) ? product.images : [product.images || product.image],
       });
     }
     notify();

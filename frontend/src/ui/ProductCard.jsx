@@ -28,15 +28,25 @@ export const ProductCard = ({ product }) => {
       <div className="product-card__image-wrap">
         <Link to={`/product/${product.slug}`} className="product-card__link">
           <img 
-            src={product.images?.[0] || 'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown'} 
+            src={
+              (typeof product.images?.[0] === 'string' ? product.images[0] : product.images?.[0]?.url) || 
+              (typeof product.primary_image?.[0] === 'string' ? product.primary_image[0] : product.primary_image?.[0]?.url) ||
+              product.primary_image?.url ||
+              product.image ||
+              'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown'
+            } 
             alt={product.name} 
             className="product-card__img product-card__img--main"
             loading="lazy"
             onError={(e) => { e.target.src = 'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown'; }}
           />
-          {product.images?.[1] && (
+          {(product.images?.[1] || product.primary_image?.[1]) && (
             <img 
-              src={product.images[1]} 
+              src={
+                (typeof product.images?.[1] === 'string' ? product.images[1] : product.images?.[1]?.url) ||
+                (typeof product.primary_image?.[1] === 'string' ? product.primary_image[1] : product.primary_image?.[1]?.url) ||
+                'https://via.placeholder.com/600x800/0A1128/C5A059?text=Tori+Crown'
+              } 
               alt={`${product.name} alternate view`} 
               className="product-card__img product-card__img--hover"
               loading="lazy"
