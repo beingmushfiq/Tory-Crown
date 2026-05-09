@@ -54,14 +54,15 @@ export const Checkout = () => {
     setIsProcessing(true);
 
     const orderPayload = {
-      customer_name: `${formData.firstName} ${formData.lastName}`,
-      customer_email: formData.email,
-      customer_phone: formData.phone,
-      shipping_address: formData.address,
+      name: `${formData.firstName} ${formData.lastName}`,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
       city: formData.city,
+      district: formData.city,
       payment_method: paymentMethod,
       items: cartItems.map(item => ({
-        variant_id: item.variant?.id || 1, // Fallback if no variant (should be resolved from real product data)
+        variant_id: item.variant?.id || 1,
         quantity: item.quantity
       }))
     };

@@ -50,6 +50,21 @@ class OrderController extends Controller
         }
 
         $cart = $this->cartService->getCart($request->header('X-Session-ID'));
+        
+        // Sync cart from request if items are provided
+        if ($request->has('items') && is_array($request->items)) {
+            $this->cartService->clear($request->header('X-Session-ID'));
+            foreach ($request->items as $item) {
+                if (isset($item['variant_id']) && isset($item['quantity'])) {
+                    $variant = \App\Models\ProductVariant::find($item['variant_id']);
+                    if ($variant) {
+                        $this->cartService->addItem($request->header('X-Session-ID'), $variant, $item['quantity']);
+                    }
+                }
+            }
+            $cart = $this->cartService->getCart($request->header('X-Session-ID'));
+        }
+
         if ($cart->items->isEmpty()) {
             return response()->json(['success' => false, 'error' => 'CART_EMPTY'], 400);
         }
